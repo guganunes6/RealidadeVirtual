@@ -9,7 +9,8 @@ public class CameraScript : MonoBehaviour
 
     public float hitDistance = 2f;
 
-    public float moveSpeed = 10f;
+    public float moveSpeedWASD = 10f;
+    public float moveSpeedMouseWheel = 10f;
 
     public float sensitivity = 10f;
     public float maxYAngle = 89.5f;
@@ -22,8 +23,16 @@ public class CameraScript : MonoBehaviour
 
         ////////// CAMERA & PLAYER POSITIONS
 
-        float xValue = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
-        float zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+        float xValue = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeedWASD;
+        float zValue;
+        if (Input.mouseScrollDelta.y != 0)
+        {
+            zValue = Input.mouseScrollDelta.y * moveSpeedMouseWheel;
+        }
+        else
+        {
+            zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeedWASD;
+        }
         transform.Translate(xValue, 0, zValue);
 
         player.transform.position = transform.position;
