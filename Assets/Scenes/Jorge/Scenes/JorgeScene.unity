@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1854208846}
+  hitDistance: 2
   moveSpeed: 10
   sensitivity: 2
   maxYAngle: 89.5
@@ -424,6 +425,7 @@ GameObject:
   - component: {fileID: 887026804}
   - component: {fileID: 887026806}
   - component: {fileID: 887026805}
+  - component: {fileID: 887026807}
   m_Layer: 0
   m_Name: Sphere (Yellow)
   m_TagString: Untagged
@@ -492,6 +494,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 887026803}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!135 &887026807
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887026803}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1486706463
 GameObject:
   m_ObjectHideFlags: 0
