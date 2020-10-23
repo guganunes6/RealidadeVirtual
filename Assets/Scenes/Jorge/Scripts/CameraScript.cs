@@ -15,6 +15,8 @@ public class CameraScript : MonoBehaviour
     public float maxYAngle = 89.5f;
     private Vector2 currentRotation;
 
+    private GameObject objHit = null;
+
     void Update()
     {
 
@@ -42,8 +44,15 @@ public class CameraScript : MonoBehaviour
         var cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, Camera.main.nearClipPlane));
         if (Physics.Raycast(cameraCenter, transform.forward, out hit, hitDistance))
         {
-            var obj = hit.transform.gameObject;
-            Debug.Log(obj);
+            objHit = hit.transform.gameObject;
+            var outline = objHit.GetComponent<Outline>();
+            outline.enabled = true;
+        }
+        else if (objHit != null)
+        {
+            var outline = objHit.GetComponent<Outline>();
+            outline.enabled = false;
+            objHit = null;
         }
 
     }
