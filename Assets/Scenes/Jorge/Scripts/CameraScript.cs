@@ -18,34 +18,42 @@ public class CameraScript : MonoBehaviour
 
     private GameObject objHit = null;
 
+    private bool playerStop = false;
+
+    private Color orange = new Color(1.0f, 0.64f, 0.0f);
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     void Update()
     {
-
-        ////////// CAMERA & PLAYER POSITIONS
-
-        float xValue = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeedWASD;
-        float zValue;
-        if (Input.mouseScrollDelta.y != 0)
+        if (!playerStop)
         {
-            zValue = Input.mouseScrollDelta.y * moveSpeedMouseWheel;
+            ////////// CAMERA & PLAYER POSITIONS
+
+            float xValue = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeedWASD;
+            float zValue;
+            if (Input.mouseScrollDelta.y != 0)
+            {
+                zValue = Input.mouseScrollDelta.y * moveSpeedMouseWheel;
+            }
+            else
+            {
+                zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeedWASD;
+            }
+            transform.Translate(xValue, 0, zValue);
+
+            player.transform.position = transform.position;
+
+            ////////// CAMERA ROTATION
+
+            currentRotation.x += Input.GetAxis("Mouse X") * sensitivity;
+            currentRotation.y -= Input.GetAxis("Mouse Y") * sensitivity;
+            currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
+            currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
+            Camera.main.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
         }
-        else
-        {
-            zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeedWASD;
-        }
-        transform.Translate(xValue, 0, zValue);
-
-        player.transform.position = transform.position;
-
-        ////////// CAMERA ROTATION
-
-        currentRotation.x += Input.GetAxis("Mouse X") * sensitivity;
-        currentRotation.y -= Input.GetAxis("Mouse Y") * sensitivity;
-        currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
-        currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
-        Camera.main.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
-        if (Input.GetMouseButtonDown(0))
-            Cursor.lockState = CursorLockMode.Locked;
 
         ////////// RAYCASTS
 
@@ -56,6 +64,18 @@ public class CameraScript : MonoBehaviour
             objHit = hit.transform.gameObject;
             var outline = objHit.GetComponent<Outline>();
             outline.enabled = true;
+            if (Input.GetMouseButtonDown(0) & !playerStop)
+            {
+                playerStop = true;
+                outline.OutlineColor = orange;
+                outline.OutlineWidth = 30;
+            }
+            else if (Input.GetMouseButtonDown(0) & playerStop)
+            {
+                playerStop = false;
+                outline.OutlineColor = Color.white;
+                outline.OutlineWidth = 10;
+            }
         }
         else if (objHit != null)
         {
