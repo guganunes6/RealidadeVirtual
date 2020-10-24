@@ -11,6 +11,7 @@ public class CameraScript : MonoBehaviour
 
     public float moveSpeedWASD = 10f;
     public float moveSpeedMouseWheel = 10f;
+    public float rotateSpeed = 10f;
 
     public float sensitivity = 10f;
     public float maxYAngle = 89.5f;
@@ -47,12 +48,15 @@ public class CameraScript : MonoBehaviour
             player.transform.position = transform.position;
 
             ////////// CAMERA ROTATION
-
+            
             currentRotation.x += Input.GetAxis("Mouse X") * sensitivity;
             currentRotation.y -= Input.GetAxis("Mouse Y") * sensitivity;
             currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
             currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
+
             Camera.main.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
+            
+
         }
 
         ////////// RAYCASTS
@@ -69,6 +73,7 @@ public class CameraScript : MonoBehaviour
                 playerStop = true;
                 outline.OutlineColor = orange;
                 outline.OutlineWidth = 30;
+
             }
             else if (Input.GetMouseButtonDown(0) & playerStop)
             {
@@ -76,6 +81,19 @@ public class CameraScript : MonoBehaviour
                 outline.OutlineColor = Color.white;
                 outline.OutlineWidth = 10;
             }
+
+            ////////// ROTATE AROUND
+
+            if (playerStop)
+            {
+                float xValueRotateAround = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
+                //float zValueRotate = Input.GetAxis("Vertical") * Time.deltaTime * rotateSpeed;
+                transform.RotateAround(objHit.transform.position, Vector3.up, -xValueRotateAround);
+                currentRotation.x = transform.localRotation.eulerAngles.y;
+                //transform.RotateAround(objHit.transform.position, Vector3.right, zValueRotate);
+                player.transform.position = transform.position;
+            }
+
         }
         else if (objHit != null)
         {
