@@ -23,9 +23,17 @@ public class CameraScript : MonoBehaviour
 
     private Color orange = new Color(1.0f, 0.64f, 0.0f);
 
+    private List<Color> colorsList = new List<Color>();
+    private int colorListIterator = -1;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+
+        colorsList.Add(Color.green);
+        colorsList.Add(Color.cyan);
+        colorsList.Add(Color.red);
+        colorsList.Add(Color.yellow);
     }
     void Update()
     {
@@ -66,8 +74,11 @@ public class CameraScript : MonoBehaviour
         if (Physics.Raycast(cameraCenter, transform.forward, out hit, hitDistance))
         {
             objHit = hit.transform.gameObject;
-            var outline = objHit.GetComponent<Outline>();
+            Outline outline = objHit.GetComponent<Outline>();
             outline.enabled = true;
+
+            /////////// SELECT & DESELECT NODE
+
             if (Input.GetMouseButtonDown(0) & !playerStop)
             {
                 playerStop = true;
@@ -80,6 +91,24 @@ public class CameraScript : MonoBehaviour
                 playerStop = false;
                 outline.OutlineColor = Color.white;
                 outline.OutlineWidth = 10;
+            }
+
+            ////////// MARK NODES
+            
+            if (Input.GetMouseButtonDown(1) & outline.OutlineColor != orange)
+            {
+                if (colorListIterator == 3)
+                {
+                    outline.OutlineColor = Color.white;
+                    outline.OutlineWidth = 10;
+                    colorListIterator = -1;
+                }
+                else if (colorListIterator >= -1 & colorListIterator <= 2)
+                {
+                    outline.OutlineColor = colorsList[colorListIterator + 1];
+                    outline.OutlineWidth = 100;
+                    colorListIterator++;
+                }
             }
 
             ////////// ROTATE AROUND
@@ -98,10 +127,14 @@ public class CameraScript : MonoBehaviour
         else if (objHit != null)
         {
             var outline = objHit.GetComponent<Outline>();
-            outline.enabled = false;
-            objHit = null;
+            if (outline.OutlineColor == Color.white)
+            {
+                outline.enabled = false;
+                objHit = null;
+            }
+            colorListIterator = -1;
         }
-
+        
     }
 
 }
