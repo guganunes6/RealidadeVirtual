@@ -85,6 +85,12 @@ public class CameraScript : MonoBehaviour
                 outline.OutlineColor = orange;
                 outline.OutlineWidth = 30;
 
+                if (objHit.GetComponent<Light>() != null)
+                {
+                    Destroy(objHit.GetComponent<Light>());
+                    Debug.Log("Time until select random node: " + Time.time);
+                }
+
             }
             else if (Input.GetMouseButtonDown(0) & playerStop)
             {
