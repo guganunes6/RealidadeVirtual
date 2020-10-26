@@ -23,7 +23,7 @@ public class Decoder {
 
                 List<string> columnsList = ParseLine(columns);
                 if (columnsList.Count == 24) { // Total good columns
-                    DecodedNode node = DecodedNode(columnsList);
+                    DecodedNode node = CreateNode(columnsList);
                     string id = node.getId(); 
                     if (!movies.ContainsKey(id) && id != "id") movies.Add(id, node); // exclude the first line
                 }
@@ -79,7 +79,7 @@ public class Decoder {
         return result;
     }
 
-    private DecodedNode DecodedNode(List<string> columnsList) {
+    private DecodedNode CreateNode(List<string> columnsList) {
         DecodedNode node = new DecodedNode();
         node.setAdultMovie(columnsList[0]);
         node.setBellongsToCollection(columnsList[1]);

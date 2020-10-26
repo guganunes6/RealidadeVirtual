@@ -99,14 +99,14 @@ public class DecodedNode {
 
     public void setGenres(string genres)
     {
-        if (genres.Length > 0 && genres.Trim()[0].ToString() == "[" && genres.Trim()[1].ToString() == "{") {
+        if (genres.Length > 2 && genres.Trim()[1].ToString() == "[" && genres.Trim()[2].ToString() == "{") {
             List<string> movieGenres = new List<string>(); 
             string[] values = genres.Split(","[0]);
             for (int i = 0; i < values.Length; i++) {
                 if (values[i].Contains("name")) {
                     string[] aux = values[i].Split(":"[0]);
                     string genre = aux[aux.Length - 1].Trim();
-
+                    
                     // Accept only alphanumeric values
                     Regex rgx = new Regex("[^a-zA-Z0-9 -]"); 
                     movieGenres.Add(rgx.Replace(genre, ""));
@@ -203,7 +203,7 @@ public class DecodedNode {
 
     public void setProductionCompanies(string productionCompanies)
     {
-        if (productionCompanies.Length > 0 && productionCompanies.Trim()[0].ToString() == "[" && productionCompanies.Trim()[1].ToString() == "{") {
+        if (productionCompanies.Length > 0 && productionCompanies.Trim()[1].ToString() == "[" && productionCompanies.Trim()[2].ToString() == "{") {
             List<string> companies = new List<string>(); 
             string[] values = productionCompanies.Split(","[0]);
             for (int i = 0; i < values.Length; i++) {
@@ -227,7 +227,7 @@ public class DecodedNode {
 
     public void setProductionCountries(string productionCountries)
     {
-        if (productionCountries.Length > 0 && productionCountries.Trim()[0].ToString() == "[" && productionCountries.Trim()[1].ToString() == "{") {
+        if (productionCountries.Length > 0 && productionCountries.Trim()[1].ToString() == "[" && productionCountries.Trim()[2].ToString() == "{") {
             List<string> countries = new List<string>(); 
             string[] values = productionCountries.Split(","[0]);
             for (int i = 0; i < values.Length; i++) {
@@ -281,7 +281,7 @@ public class DecodedNode {
 
     public void setSpokenLanguages(string spokenLanguages)
     {
-        if (spokenLanguages.Length > 0 && spokenLanguages.Trim()[0].ToString() == "[" && spokenLanguages.Trim()[1].ToString() == "{") {
+        if (spokenLanguages.Length > 0 && spokenLanguages.Trim()[1].ToString() == "[" && spokenLanguages.Trim()[2].ToString() == "{") {
             List<string> languages = new List<string>(); 
             string[] values = spokenLanguages.Split(","[0]);
             for (int i = 0; i < values.Length; i++) {
