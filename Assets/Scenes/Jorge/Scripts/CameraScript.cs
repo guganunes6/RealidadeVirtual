@@ -26,6 +26,10 @@ public class CameraScript : MonoBehaviour
     private List<Color> colorsList = new List<Color>();
     private int colorListIterator = -1;
 
+    private AudioSource audio;
+    public AudioClip selectSound;
+    public AudioClip markSound;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -34,6 +38,8 @@ public class CameraScript : MonoBehaviour
         colorsList.Add(Color.cyan);
         colorsList.Add(Color.red);
         colorsList.Add(Color.yellow);
+
+        audio = GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -91,12 +97,16 @@ public class CameraScript : MonoBehaviour
                     Debug.Log("Time until select random node: " + Time.time);
                 }
 
+                audio.PlayOneShot(selectSound);
+
             }
             else if (Input.GetMouseButtonDown(0) & playerStop)
             {
                 playerStop = false;
                 outline.OutlineColor = Color.white;
                 outline.OutlineWidth = 10;
+
+                audio.PlayOneShot(selectSound);
             }
 
             ////////// MARK NODES
@@ -115,6 +125,8 @@ public class CameraScript : MonoBehaviour
                     outline.OutlineWidth = 100;
                     colorListIterator++;
                 }
+
+                audio.PlayOneShot(markSound);
             }
 
             ////////// ROTATE AROUND
