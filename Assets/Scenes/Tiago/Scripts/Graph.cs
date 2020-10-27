@@ -12,14 +12,14 @@ public class Graph<Movie, TEdgeType>{
 
     public Dictionary<int, Edge> Edges { get; private set; }
 }
-
+/*
 public class Node{
     public int id { get; set; }
 
     //public Movie movie { get; set; }
 
     public Vector3 position { get; set; }
-}
+}*/
 
 public class Edge
 {

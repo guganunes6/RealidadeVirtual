@@ -3,7 +3,9 @@ guid: a643d8732e3996a4eac80b2cca1225af
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - sphereGameObject: {fileID: 7841032801911390119, guid: b6abb9695055f8742a3d65fc47aa9931,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

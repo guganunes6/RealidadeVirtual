@@ -6,13 +6,13 @@ public class SphereComponent : MonoBehaviour
 {
 
     public GameObject sphereGameObject;
-    public int numberOfObjects = 6;
+    public int numberOfObjects = 20;
 
 
     void Start()
     {
         //gameObject Spheres parent
-        GameObject spheres = GameObject.FindGameObjectWithTag("Spheres");
+        GameObject spheres = GameObject.Find("Spheres");
 
         for (int i = 0; i < numberOfObjects; i++)
         {
@@ -23,7 +23,6 @@ public class SphereComponent : MonoBehaviour
             sphere.transform.parent = spheres.transform;
         }
 
-        Debug.Log(spheres.transform.childCount);
     }
 
     // Update is called once per frame
