@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4972962300991263970}
   m_Layer: 0
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Spheres
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2012265789020320567}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.645393, y: 8.967072, z: -19.78859}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5731137029103430602}
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a643d8732e3996a4eac80b2cca1225af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4783638853687494337}
+  sphereGameObject: {fileID: 2012265789020320567}
   numberOfObjects: 6
 --- !u!1 &4783638853687494337
 GameObject:

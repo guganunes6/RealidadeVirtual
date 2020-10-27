@@ -5,19 +5,25 @@ using UnityEngine;
 public class SphereComponent : MonoBehaviour
 {
 
-    public GameObject prefab;
-    public int numberOfObjects = 3;
+    public GameObject sphereGameObject;
+    public int numberOfObjects = 6;
 
 
     void Start()
     {
+        //gameObject Spheres parent
+        GameObject spheres = GameObject.FindGameObjectWithTag("Spheres");
+
         for (int i = 0; i < numberOfObjects; i++)
         {
-            Vector3 pos = new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), Random.Range(-5f, 5f));
-            Quaternion rot = new Quaternion();
 
-            Instantiate(prefab, pos, rot);
+            //gameObject Sphere children
+            GameObject sphere = Instantiate(sphereGameObject, new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), Random.Range(-5f, 5f)) , Quaternion.identity);
+
+            sphere.transform.parent = spheres.transform;
         }
+
+        Debug.Log(spheres.transform.childCount);
     }
 
     // Update is called once per frame
