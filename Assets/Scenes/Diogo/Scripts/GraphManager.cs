@@ -16,9 +16,9 @@ public class GraphManager : MonoBehaviour
     public GameObject spherePrefab;
     private List<GameObject> spheres;
 
-    private void Start()
+    public void InitializeGraphManager(Dictionary<string, DecodedNode> decodedMovies)
     {
-        movies = gameObject.GetComponent<Main>().GetMovies();
+        movies = decodedMovies;
         nodes = new Dictionary<int, Node>();
         cylinders = new List<GameObject>();
         spheres = new List<GameObject>();
@@ -50,7 +50,7 @@ public class GraphManager : MonoBehaviour
             nodesAdded.Add(node.id);
             foreach (var neighbour in node.neighbours)
             {
-                if (!nodesAdded.Contains(neighbour.Item1.id))
+                if (!nodesAdded.Contains(neighbour.Item1.id) && neighbour.Item2 > 0)
                 {
                     CreateCylinder(node.position, neighbour.Item1.position);
                 }
@@ -67,22 +67,22 @@ public class GraphManager : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        foreach (var node in nodes.Values)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(node.position, 0.2f);
-            Gizmos.color = Color.green;
-            foreach (var otherNode in node.neighbours)
-            {
-                if (otherNode.Item2 > 0)
-                {
-                    Gizmos.DrawLine(node.position, otherNode.Item1.position);
-                }
-            }
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    foreach (var node in nodes.Values)
+    //    {
+    //        Gizmos.color = Color.red;
+    //        Gizmos.DrawWireSphere(node.position, 0.2f);
+    //        Gizmos.color = Color.green;
+    //        foreach (var otherNode in node.neighbours)
+    //        {
+    //            if (otherNode.Item2 > 0)
+    //            {
+    //                Gizmos.DrawLine(node.position, otherNode.Item1.position);
+    //            }
+    //        }
+    //    }
+    //}
 
     private void InitializeNodes()
     {
@@ -107,10 +107,6 @@ public class GraphManager : MonoBehaviour
             {
                 if (node.id != otherNode.id)
                 {
-                    // similarity should be mapped from 0-1 to be used in force function
-                    //Debug.Log(otherNode.movie.getId()); 
-                    //Debug.Log(otherNode.movie.getId() + " " + otherNode.movie.getGenres());
-
                     node.AddNeighbour(new Tuple<Node, int>(otherNode, Similarity(node, otherNode)));
                 }
             }
