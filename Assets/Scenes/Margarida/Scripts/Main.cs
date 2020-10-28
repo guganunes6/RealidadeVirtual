@@ -1,12 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Main : MonoBehaviour {
-    
+
+    public int NumberOfMovies;
+    private Decoder decoder;
     void Start() {
-        Decoder decoder = new Decoder("Assets/Scenes/Margarida/Scripts/Dataset/archive/movies_metadata.csv");
-        decoder.Parse(1);
+        decoder = new Decoder("Assets/Scenes/Margarida/Scripts/Dataset/archive/movies_metadata.csv");
+    }
+
+    public Dictionary<string, DecodedNode> GetMovies()
+    {
+        return decoder.Parse(NumberOfMovies);
     }
 
     // Update is called once per frame

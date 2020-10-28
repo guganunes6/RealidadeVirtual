@@ -13,26 +13,33 @@ public class Decoder {
         this.dirPath = dirPath;
     }
 
-    public void Parse(int numNodesToParse) {
+    public Dictionary<string, DecodedNode> Parse(int numNodesToParse) {
         using(var reader = new StreamReader(this.dirPath)) {
             Dictionary<string, DecodedNode> movies = new Dictionary<string, DecodedNode>(); // {id : DecodedNode}
 
-            do { 
+            do {
                 string line = reader.ReadLine();
                 string[] columns = line.Split(","[0]);
 
                 List<string> columnsList = ParseLine(columns);
                 if (columnsList.Count == 24) { // Total good columns
-                    DecodedNode node = CreateNode(columnsList);
-                    string id = node.getId(); 
-                    if (!movies.ContainsKey(id) && id != "id") movies.Add(id, node); // exclude the first line
+
+                    // only create node if it has genres
+                    if (MovieHasGenres(columnsList[3]))
+                    {
+                        DecodedNode node = CreateNode(columnsList);
+                        string id = node.getId();
+                        if (!movies.ContainsKey(id) && id != "id") movies.Add(id, node); // exclude the first line
+                    }
                 }
             } while (movies.Count < numNodesToParse && !reader.EndOfStream);
             
             // Nodes info {id : DecodedNode} => DecodedNode has 24 different parameters about the movie
-            foreach (KeyValuePair<string, DecodedNode> kv in movies) {
-                Debug.Log ("\n{" + kv.Key.ToString() +  " : (" + kv.Value.PrintMovieInfo() + ")}");
-            }
+            //foreach (KeyValuePair<string, DecodedNode> kv in movies) {
+            //    Debug.Log ("\n{" + kv.Key.ToString() +  " : (" + kv.Value.PrintMovieInfo() + ")}");
+            //}
+
+            return movies;
         }
     }
 
@@ -54,6 +61,11 @@ public class Decoder {
             }
         } 
         return values;
+    }
+
+    private bool MovieHasGenres(string genresColumn)
+    {
+        return genresColumn.Length > 2;
     }
 
     private Dictionary<int, string> AppendUntilJsonCompleted(string[] columns, int startAt) {
