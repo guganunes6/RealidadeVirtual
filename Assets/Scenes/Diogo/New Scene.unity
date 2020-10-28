@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03f32a2bf26d4b4f8b13944892d8bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfMovies: 2
+  NumberOfMovies: 30
 --- !u!114 &1084245028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,10 +178,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122602a3b29b83c42ab73fb00de5c6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphCanvasSize: 10
+  graphCanvasSize: 20
   cylinderPrefab: {fileID: 7960853812639014517, guid: a653dfa0a67c0e647b9a398b8821019f,
     type: 3}
-  cylinderRadius: 0.1
+  spherePrefab: {fileID: 7841032801911390119, guid: b6abb9695055f8742a3d65fc47aa9931,
+    type: 3}
 --- !u!1 &1201093426
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,19 +10,25 @@ public class GraphManager : MonoBehaviour
     public Dictionary<int, Node> nodes;
     private Dictionary<string, DecodedNode> movies;
 
+    public GameObject cylinderPrefab;
+    private List<GameObject> cylinders;
+
+    public GameObject spherePrefab;
+    private List<GameObject> spheres;
+
     private void Start()
     {
         movies = gameObject.GetComponent<Main>().GetMovies();
         nodes = new Dictionary<int, Node>();
+        cylinders = new List<GameObject>();
+        spheres = new List<GameObject>();
         InitializeNodes();
         CalculateNeighbours();
         GenerateGraph();
         InstanciateCylinders();
+        InstanciateSpheres();
     }
 
-    public GameObject cylinderPrefab;
-    public float cylinderRadius;
-    public float sphereRadius = 0.2f;
     private void CreateCylinder(Vector3 startPos, Vector3 endPos)
     {
 
@@ -31,8 +37,9 @@ public class GraphManager : MonoBehaviour
         Quaternion tilt = Quaternion.FromToRotation(Vector3.up, diff);
 
         var cyl = Instantiate(cylinderPrefab, position, Quaternion.identity);
-        cyl.transform.localScale = new Vector3(cylinderRadius, diff.magnitude / 2, cylinderRadius);
+        cyl.transform.localScale = new Vector3(cylinderPrefab.transform.localScale.x, diff.magnitude / 2, cylinderPrefab.transform.localScale.x);
         cyl.transform.rotation = tilt;
+        cylinders.Add(cyl);
     }
 
     private void InstanciateCylinders()
@@ -48,6 +55,15 @@ public class GraphManager : MonoBehaviour
                     CreateCylinder(node.position, neighbour.Item1.position);
                 }
             }
+        }
+    }
+
+    private void InstanciateSpheres()
+    {
+        foreach (var node in nodes.Values)
+        {
+            var sphere = Instantiate(spherePrefab, node.position, Quaternion.identity);
+            spheres.Add(sphere);
         }
     }
 
@@ -132,7 +148,6 @@ public class Node
         id = Int32.Parse(m.getId());
         neighbours = new List<Tuple<Node, int>>();
         movie = m;
-        //position = UnityEngine.Random.insideUnitSphere * 5; // ? Vector3.zero
         position = Vector3.zero;
     }
 
