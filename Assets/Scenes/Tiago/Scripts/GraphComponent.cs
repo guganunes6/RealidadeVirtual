@@ -11,9 +11,9 @@ public class GraphComponent : MonoBehaviour
     void Start()
     {
         graph = new Graph<Vector3, float>();
-        var node1 = new Node() { id = 0, position = Vector3.zero /*, movie = null */  };
-        var node2 = new Node() { id = 1, position = Vector3.one/*, movie = null */ };
-        var node3 = new Node() { id = 2, position = new Vector3(2,2,-2)/*, movie = null */};
+        var node1 = new Node(new DummyMovie(0, "0A", new string[1] { "A" })) { id = 0, position = Vector3.zero /*, movie = null */  };
+        var node2 = new Node(new DummyMovie(1, "0B", new string[1] { "B" })) { id = 1, position = Vector3.one/*, movie = null */ };
+        var node3 = new Node(new DummyMovie(2, "0C", new string[1] { "C" })) { id = 2, position = new Vector3(2,2,-2)/*, movie = null */};
 
         var edge1 = new Edge() { id = 0, From = node1, To = node2 };
         var edge2 = new Edge() { id = 1, From = node1, To = node3 };
