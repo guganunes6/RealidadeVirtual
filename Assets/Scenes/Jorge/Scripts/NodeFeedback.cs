@@ -15,7 +15,7 @@ public class NodeFeedback : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Started by: " + gameObject);
+        //Debug.Log("Started by: " + gameObject);
         light = gameObject.AddComponent<Light>();
         light.color = Color.yellow;
 

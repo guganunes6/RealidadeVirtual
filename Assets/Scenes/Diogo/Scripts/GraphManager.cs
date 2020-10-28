@@ -16,6 +16,14 @@ public class GraphManager : MonoBehaviour
     public GameObject spherePrefab;
     private List<GameObject> spheres;
 
+    private GameObject spheresParent;
+    public GameObject manager;
+
+    private void Start()
+    {
+        spheresParent = GameObject.Find("Spheres");
+    }
+
     public void InitializeGraphManager(Dictionary<string, DecodedNode> decodedMovies)
     {
         movies = decodedMovies;
@@ -27,6 +35,7 @@ public class GraphManager : MonoBehaviour
         GenerateGraph();
         InstanciateCylinders();
         InstanciateSpheres();
+        manager.SetActive(true);
     }
 
     private void CreateCylinder(Vector3 startPos, Vector3 endPos)
@@ -64,6 +73,7 @@ public class GraphManager : MonoBehaviour
         {
             var sphere = Instantiate(spherePrefab, node.position, Quaternion.identity);
             spheres.Add(sphere);
+            sphere.transform.parent = spheresParent.transform;
         }
     }
 
