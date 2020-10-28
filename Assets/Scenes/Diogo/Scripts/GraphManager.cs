@@ -140,7 +140,48 @@ public class GraphManager : MonoBehaviour
         return numberOfEqualGenres;
     }
 
+    public void OutlineNodeEdges(Vector3 nodePosition, Color outlineColor, float outlineWidth, bool showOutline)
+    {
+        Debug.Log("found function");
+        Node nodeToOutline = null;
+        // find node 
+        foreach (var node in nodes.Values)
+        {
+            if (node.position == nodePosition)
+            {
+                nodeToOutline = node;
+                Debug.Log("found node");
+            }
+        }
 
+        foreach (var neighbour in nodeToOutline.neighbours)
+        {
+            if (neighbour.Item2 > 0)
+            {
+                // find cylinder by position
+                var diff = neighbour.Item1.position - nodeToOutline.position;
+                var position = nodeToOutline.position + (diff / 2);
+
+                foreach (var cyl in cylinders)
+                {
+                    if (cyl.transform.position == position)
+                    {
+                        var outline = cyl.GetComponent<Outline>();
+                        if (showOutline && outlineColor != Color.white)
+                        {
+                            outline.enabled = true;
+                            outline.OutlineColor = outlineColor;
+                            outline.OutlineWidth = outlineWidth;
+                        }
+                        else
+                        {
+                            outline.enabled = false;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 public class Node

@@ -84,29 +84,32 @@ public class CameraScript2 : MonoBehaviour
             outline.enabled = true;
 
             /////////// SELECT & DESELECT NODE
-
-            if (Input.GetMouseButtonDown(0) & !playerStop)
+            if (objHit.tag == "Sphere")
             {
-                playerStop = true;
-                outline.OutlineColor = orange;
-                outline.OutlineWidth = 30;
-
-                if (objHit.GetComponent<Light>() != null)
+                Debug.Log(objHit.tag);
+                if (Input.GetMouseButtonDown(0) & !playerStop)
                 {
-                    Destroy(objHit.GetComponent<Light>());
-                    Debug.Log("Time until select random node: " + Time.time);
+                    playerStop = true;
+                    outline.OutlineColor = orange;
+                    outline.OutlineWidth = 30;
+
+                    if (objHit.GetComponent<Light>() != null)
+                    {
+                        Destroy(objHit.GetComponent<Light>());
+                        Debug.Log("Time until select random node: " + Time.time);
+                    }
+
+                    audio.PlayOneShot(selectSound);
+
                 }
+                else if (Input.GetMouseButtonDown(0) & playerStop)
+                {
+                    playerStop = false;
+                    outline.OutlineColor = Color.white;
+                    outline.OutlineWidth = 10;
 
-                audio.PlayOneShot(selectSound);
-
-            }
-            else if (Input.GetMouseButtonDown(0) & playerStop)
-            {
-                playerStop = false;
-                outline.OutlineColor = Color.white;
-                outline.OutlineWidth = 10;
-
-                audio.PlayOneShot(selectSound);
+                    audio.PlayOneShot(selectSound);
+                }
             }
 
             ////////// MARK NODES

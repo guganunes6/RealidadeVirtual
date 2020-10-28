@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-
+    public GameObject GraphManager;
     public GameObject player;
 
     public float hitDistance = 2f;
@@ -80,67 +80,76 @@ public class CameraScript : MonoBehaviour
         if (Physics.Raycast(cameraCenter, transform.forward, out hit, hitDistance))
         {
             objHit = hit.transform.gameObject;
-            Outline outline = objHit.GetComponent<Outline>();
-            outline.enabled = true;
-
-            /////////// SELECT & DESELECT NODE
-
-            if (Input.GetMouseButtonDown(0) & !playerStop)
+            if (objHit.tag == "Sphere")
             {
-                playerStop = true;
-                outline.OutlineColor = orange;
-                outline.OutlineWidth = 30;
+                Outline outline = objHit.GetComponent<Outline>();
+                outline.enabled = true;
 
-                if (objHit.GetComponent<Light>() != null)
+                /////////// SELECT & DESELECT NODE
+
+                if (Input.GetMouseButtonDown(0) & !playerStop)
                 {
-                    Destroy(objHit.GetComponent<Light>());
-                    Debug.Log("Time until select random node: " + Time.time);
+                    playerStop = true;
+                    outline.OutlineColor = orange;
+                    outline.OutlineWidth = 30;
+
+                    if (objHit.GetComponent<Light>() != null)
+                    {
+                        Destroy(objHit.GetComponent<Light>());
+                        Debug.Log("Time until select random node: " + Time.time);
+                    }
+
+                    audio.PlayOneShot(selectSound);
+
                 }
-
-                audio.PlayOneShot(selectSound);
-
-            }
-            else if (Input.GetMouseButtonDown(0) & playerStop)
-            {
-                playerStop = false;
-                outline.OutlineColor = Color.white;
-                outline.OutlineWidth = 10;
-
-                audio.PlayOneShot(selectSound);
-            }
-
-            ////////// MARK NODES
-            
-            if (Input.GetMouseButtonDown(1) & outline.OutlineColor != orange)
-            {
-                if (colorListIterator == 3)
+                else if (Input.GetMouseButtonDown(0) & playerStop)
                 {
+                    playerStop = false;
                     outline.OutlineColor = Color.white;
                     outline.OutlineWidth = 10;
-                    colorListIterator = -1;
+
+                    audio.PlayOneShot(selectSound);
                 }
-                else if (colorListIterator >= -1 & colorListIterator <= 2)
+
+                ////////// MARK NODES
+
+                if (Input.GetMouseButtonDown(1) & outline.OutlineColor != orange)
                 {
-                    outline.OutlineColor = colorsList[colorListIterator + 1];
-                    outline.OutlineWidth = 100;
-                    colorListIterator++;
+                    if (colorListIterator == 3)
+                    {
+                        outline.OutlineColor = Color.white;
+                        outline.OutlineWidth = 10;
+                        colorListIterator = -1;
+                    }
+                    else if (colorListIterator >= -1 & colorListIterator <= 2)
+                    {
+                        outline.OutlineColor = colorsList[colorListIterator + 1];
+                        outline.OutlineWidth = 100;
+                        colorListIterator++;
+                    }
+
+                    if (objHit.tag == "Sphere")
+                    {
+                        // get GraphManager component
+                        GraphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, true);
+                        // OutlineNodes(objHit.position)
+                    }
+
+                    audio.PlayOneShot(markSound);
                 }
 
-                audio.PlayOneShot(markSound);
+                ////////// ROTATE AROUND
+
+                if (playerStop)
+                {
+                    float xValueRotateAround = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
+                    //float zValueRotate = Input.GetAxis("Vertical") * Time.deltaTime * rotateSpeed;
+                    transform.RotateAround(objHit.transform.position, Vector3.up, -xValueRotateAround);
+                    currentRotation.x = transform.localRotation.eulerAngles.y;
+                    //transform.RotateAround(objHit.transform.position, Vector3.right, zValueRotate);
+                    player.transform.position = transform.position;
+                }
             }
-
-            ////////// ROTATE AROUND
-
-            if (playerStop)
-            {
-                float xValueRotateAround = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
-                //float zValueRotate = Input.GetAxis("Vertical") * Time.deltaTime * rotateSpeed;
-                transform.RotateAround(objHit.transform.position, Vector3.up, -xValueRotateAround);
-                currentRotation.x = transform.localRotation.eulerAngles.y;
-                //transform.RotateAround(objHit.transform.position, Vector3.right, zValueRotate);
-                player.transform.position = transform.position;
-            }
-
         }
         else if (objHit != null)
         {
@@ -148,7 +157,9 @@ public class CameraScript : MonoBehaviour
             if (outline.OutlineColor == Color.white)
             {
                 outline.enabled = false;
+                GraphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
                 objHit = null;
+
             }
             colorListIterator = -1;
         }
