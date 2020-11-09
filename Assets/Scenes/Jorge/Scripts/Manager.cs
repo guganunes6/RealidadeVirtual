@@ -7,7 +7,7 @@ public class Manager : MonoBehaviour
 
     private GameObject spheres;
 
-    void Start()
+    void Awake()
     {
         spheres = GameObject.Find("Spheres");
         int numberSpheres = spheres.transform.childCount;
