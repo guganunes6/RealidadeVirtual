@@ -96,6 +96,7 @@ public class CameraScript : MonoBehaviour
                     if (objHit.GetComponent<Light>() != null)
                     {
                         Destroy(objHit.GetComponent<Light>());
+                        objHit.GetComponent<Renderer>().material.color = Color.white;
                         Debug.Log("Time until select random node: " + Time.time);
                     }
 

@@ -17,7 +17,9 @@ public class NodeFeedback : MonoBehaviour
         //Debug.Log("Started by: " + gameObject);
         light = gameObject.AddComponent<Light>();
         light.color = Color.red;
-        light.intensity = 5;
+        light.intensity = 20;
+
+        gameObject.GetComponent<Renderer>().material.color = Color.red;
     }
 
 
