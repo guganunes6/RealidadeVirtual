@@ -5,23 +5,19 @@ using UnityEngine;
 
 public class NodeFeedback : MonoBehaviour
 {
-
     private Light light;
-    private float maxIntensity = 1f;
-    private float minIntensity = 0f;
-    private float pulseSpeed = 1f;
-    private float targetIntensity = 10f;
-    private float currentIntensity;
+    private float maxRange = 25f;
+    private float minRange = 5f;
+    private float radiusSpeed = 10f;
+    private float targetRadius = 25f;
+    private float currentRadius;
 
     void Start()
     {
         //Debug.Log("Started by: " + gameObject);
         light = gameObject.AddComponent<Light>();
-        light.color = Color.yellow;
-
-        SerializedObject haloName = new SerializedObject(gameObject.GetComponent<Light>());
-        haloName.FindProperty("m_DrawHalo").boolValue = true;
-        haloName.ApplyModifiedProperties();
+        light.color = Color.red;
+        light.intensity = 5;
     }
 
 
@@ -29,18 +25,18 @@ public class NodeFeedback : MonoBehaviour
     {
         if (light != null)
         {
-            currentIntensity = Mathf.MoveTowards(light.intensity, targetIntensity, Time.deltaTime * pulseSpeed);
-            if (currentIntensity >= maxIntensity)
+            currentRadius = Mathf.MoveTowards(light.range, targetRadius, Time.deltaTime * radiusSpeed);
+            if (currentRadius >= maxRange)
             {
-                currentIntensity = maxIntensity;
-                targetIntensity = minIntensity;
+                currentRadius = maxRange;
+                targetRadius = minRange;
             }
-            else if (currentIntensity <= minIntensity)
+            else if (currentRadius <= minRange)
             {
-                currentIntensity = minIntensity;
-                targetIntensity = maxIntensity;
+                currentRadius = minRange;
+                targetRadius = maxRange;
             }
-            light.intensity = currentIntensity;
+            light.range = currentRadius;
         }
     }
 }

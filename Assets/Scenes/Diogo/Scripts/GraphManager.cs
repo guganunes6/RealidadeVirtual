@@ -17,11 +17,13 @@ public class GraphManager : MonoBehaviour
     private List<GameObject> spheres;
 
     private GameObject spheresParent;
+    private GameObject cylindersParent;
     public GameObject manager;
 
     private void Start()
     {
         spheresParent = GameObject.Find("Spheres");
+        cylindersParent = GameObject.Find("Cylinders");
     }
 
     public void InitializeGraphManager(Dictionary<string, DecodedNode> decodedMovies)
@@ -49,6 +51,7 @@ public class GraphManager : MonoBehaviour
         cyl.transform.localScale = new Vector3(cylinderPrefab.transform.localScale.x, diff.magnitude / 2, cylinderPrefab.transform.localScale.x);
         cyl.transform.rotation = tilt;
         cylinders.Add(cyl);
+        cyl.transform.parent = cylindersParent.transform;
     }
 
     private void InstanciateCylinders()
