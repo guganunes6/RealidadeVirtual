@@ -69,6 +69,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
         ////////// RAYCASTS
 
+        RaycastHit hit;
         if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
         {
             leftControllerRaycastOn = true;
@@ -80,6 +81,21 @@ public class OVRPlayerControllerJorge : MonoBehaviour
             rightControllerRaycastOn = true;
         }
 
-        //RaycastHit hit;
+        if (leftControllerRaycastOn) 
+        {
+            if (Physics.Raycast(leftController.transform.position, leftController.transform.forward, out hit, hitDistance))
+            {
+                Debug.DrawRay(leftController.transform.position, leftController.transform.forward, orange);
+            }
+        } 
+        else if (rightControllerRaycastOn) 
+        {
+            if (Physics.Raycast(rightController.transform.position, rightController.transform.forward, out hit, hitDistance))
+            {
+                Debug.DrawRay(rightController.transform.position, rightController.transform.forward, orange);
+            }
+        }
+
+
     }
 }
