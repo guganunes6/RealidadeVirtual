@@ -8,6 +8,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
     public GameObject eye;
     public GameObject leftController;
     public GameObject rightController;
+    public GameObject leftRaycast;
+    public GameObject rightRaycast;
 
     public float hitDistance = 2f;
 
@@ -67,9 +69,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
         player.transform.position = transform.position;
 
-        ////////// RAYCASTS
+        ////////// DECIDE RAYCAST SIDE
 
-        RaycastHit hit;
         if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
         {
             leftControllerRaycastOn = true;
@@ -81,19 +82,27 @@ public class OVRPlayerControllerJorge : MonoBehaviour
             rightControllerRaycastOn = true;
         }
 
+
+        ////////// SHOW RAYCASTS
+        
         if (leftControllerRaycastOn) 
         {
-            if (Physics.Raycast(leftController.transform.position, leftController.transform.forward, out hit, hitDistance))
-            {
-                Debug.DrawRay(leftController.transform.position, leftController.transform.forward, orange);
-            }
+            leftRaycast.SetActive(true);
+            rightRaycast.SetActive(false);
         } 
         else if (rightControllerRaycastOn) 
         {
-            if (Physics.Raycast(rightController.transform.position, rightController.transform.forward, out hit, hitDistance))
-            {
-                Debug.DrawRay(rightController.transform.position, rightController.transform.forward, orange);
-            }
+            leftRaycast.SetActive(false);
+            rightRaycast.SetActive(true);
+        }
+
+
+        ////////// SEND RAYCASTS
+        
+        RaycastHit hit;
+        if ((leftControllerRaycastOn & Physics.Raycast(leftController.transform.position, leftController.transform.forward, out hit, hitDistance)) | (rightControllerRaycastOn & Physics.Raycast(rightController.transform.position, rightController.transform.forward, out hit, hitDistance)))
+        {
+            Debug.Log("Hitting sphere");
         }
 
 
