@@ -11,7 +11,7 @@ public class CameraScript : MonoBehaviour
 
     public float moveSpeedWASD = 10f;
     public float moveSpeedMouseWheel = 10f;
-    public float rotateSpeed = 10f;
+    public float rotateAroundSpeed = 10f;
 
     public float sensitivity = 10f;
     public float maxYAngle = 89.5f;
@@ -143,7 +143,7 @@ public class CameraScript : MonoBehaviour
 
                 if (playerStop)
                 {
-                    float xValueRotateAround = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
+                    float xValueRotateAround = Input.GetAxis("Horizontal") * Time.deltaTime * rotateAroundSpeed;
                     //float zValueRotate = Input.GetAxis("Vertical") * Time.deltaTime * rotateSpeed;
                     transform.RotateAround(objHit.transform.position, Vector3.up, -xValueRotateAround);
                     currentRotation.x = transform.localRotation.eulerAngles.y;
