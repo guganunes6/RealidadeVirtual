@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class GraphManager : MonoBehaviour
 {
-    public int graphCanvasSize;
+    public float connectedNodeForce;
+    public float minConnectedDistance;
+    public float disconnectedNodeForce;
+    public float graphCanvasSize;
     public Dictionary<int, Node> nodes;
     private Dictionary<string, DecodedNode> movies;
 
@@ -32,10 +35,11 @@ public class GraphManager : MonoBehaviour
         spheres = new List<GameObject>();
         InitializeNodes();
         CalculateNeighbours();
-        GenerateGraph();
-        InstanciateCylinders();
-        InstanciateSpheres();
-        manager.SetActive(true);
+        //GenerateGraph();
+        PreGenerateGraph();
+        //InstanciateCylinders();
+        //InstanciateSpheres();
+        //manager.SetActive(true);
     }
 
     private void CreateCylinder(Vector3 startPos, Vector3 endPos)
@@ -77,22 +81,22 @@ public class GraphManager : MonoBehaviour
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    foreach (var node in nodes.Values)
-    //    {
-    //        Gizmos.color = Color.red;
-    //        Gizmos.DrawWireSphere(node.position, 0.2f);
-    //        Gizmos.color = Color.green;
-    //        foreach (var otherNode in node.neighbours)
-    //        {
-    //            if (otherNode.Item2 > 0)
-    //            {
-    //                Gizmos.DrawLine(node.position, otherNode.Item1.position);
-    //            }
-    //        }
-    //    }
-    //}
+    private void OnDrawGizmos()
+    {
+        foreach (var node in nodes.Values)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(node.position, 0.2f);
+            Gizmos.color = Color.green;
+            foreach (var otherNode in node.neighbours)
+            {
+                if (otherNode.Item2 > 0)
+                {
+                    Gizmos.DrawLine(node.position, otherNode.Item1.position);
+                }
+            }
+        }
+    }
 
     private void InitializeNodes()
     {
@@ -101,11 +105,48 @@ public class GraphManager : MonoBehaviour
             nodes.Add(Int32.Parse(movie.getId()), new Node(movie));
         }
     }
-    public void GenerateGraph()
+    private void Update()
+    {
+        GenerateGraph();
+        foreach (var node in nodes.Values)
+        {
+            node.position += node.velocity * Time.deltaTime;
+            //Debug.Log(node.id);
+        }
+    }
+    private void PreGenerateGraph()
     {
         foreach (var node in nodes.Values)
         {
             node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
+            //node.position = new Vector3(1, 1, 1);
+        }
+    }
+    public void GenerateGraph()
+    {
+        foreach (var node in nodes.Values)
+        {
+            var c = node.neighbours.Count == 29;
+            Debug.Log("nodeId: " + node.id + "Len neighbours: " +  node.neighbours.Count + " correct:" + c);
+            foreach (var otherNode in node.neighbours)
+            {
+                var positionDiference = node.position - otherNode.Item1.position;
+                var distance = positionDiference.magnitude;
+
+                float force;
+                if (otherNode.Item2 > 0)
+                {
+                    force = connectedNodeForce * Mathf.Log(distance / minConnectedDistance);
+
+                    //force = connectedNodeForce * Mathf.Log10(distance / minConnectedDistance);
+                }
+                else
+                {
+                    force = disconnectedNodeForce / Mathf.Pow(distance, 2);
+                }
+
+                otherNode.Item1.velocity = force * Time.deltaTime * positionDiference.normalized * 0.4f;
+            }
         }
     }
 
@@ -190,12 +231,14 @@ public class Node
     public List<Tuple<Node, int>> neighbours;
     public DecodedNode movie;
     public Vector3 position;
+    public Vector3 velocity;
     public Node(DecodedNode m)
     {
         id = Int32.Parse(m.getId());
         neighbours = new List<Tuple<Node, int>>();
         movie = m;
         position = Vector3.zero;
+        velocity = Vector3.zero;
     }
 
     public void AddNeighbour(Tuple<Node, int> neighbour)
