@@ -11,7 +11,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
     public GameObject leftRaycast;
     public GameObject rightRaycast;
 
-    public float hitDistance = 2f;
+    public float hitDistance;
 
     public float moveSpeedOVRController = 1f;
     public float moveSpeedTeleportOVRController = 10f;
@@ -19,7 +19,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
     public float sensitivity = 10f;
 
-    private GameObject objHit = null;
+    public static GameObject objHit = null;
 
     private bool playerStop = false;
 
@@ -34,6 +34,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
     public bool leftControllerRaycastOn;
     public bool rightControllerRaycastOn;
+
+    public static int colCount = 0;
 
     private void Start()
     {
@@ -75,11 +77,19 @@ public class OVRPlayerControllerJorge : MonoBehaviour
         {
             leftControllerRaycastOn = true;
             rightControllerRaycastOn = false;
+            Outline outline = objHit.GetComponent<Outline>();
+            outline.enabled = false;
+            objHit = null;
+            colCount = 0;
         }
         else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
         {
             leftControllerRaycastOn = false;
             rightControllerRaycastOn = true;
+            Outline outline = objHit.GetComponent<Outline>();
+            outline.enabled = false;
+            objHit = null;
+            colCount = 0;
         }
 
 
@@ -99,10 +109,10 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
         ////////// SEND RAYCASTS
         
-        RaycastHit hit;
-        if ((leftControllerRaycastOn & Physics.Raycast(leftController.transform.position, leftController.transform.forward, out hit, hitDistance)) | (rightControllerRaycastOn & Physics.Raycast(rightController.transform.position, rightController.transform.forward, out hit, hitDistance)))
+        if (colCount > 0)
         {
-            objHit = hit.transform.gameObject;
+            
+            // TODO - verificar apenas o mais perto do controller ?????
             if (objHit.tag == "Sphere")
             {
                 Outline outline = objHit.GetComponent<Outline>();
@@ -176,11 +186,13 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                 */
             }
         }
-        else if (objHit != null)
+        else if (colCount == 0 & objHit != null)
         {
+            Debug.Log("YOOO");
             var outline = objHit.GetComponent<Outline>();
             if (outline.OutlineColor == Color.white)
             {
+                Debug.Log("PLZ ENTRA AQUI");
                 outline.enabled = false;
                 //GraphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
                 objHit = null;
@@ -190,5 +202,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
         }
 
 
+        Debug.Log("COLCOUNT " + colCount);
+        Debug.Log("OBJHIT " + objHit);
     }
 }

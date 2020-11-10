@@ -7,7 +7,7 @@ public class CSVEncoder {
 
     string fileName;
     string extension = ".csv";
-    string path = "Assets\\Scenes\\Margarida\\Scripts\\"; 
+    string path = "Assets\\Scenes\\Times\\"; 
 
     long firstTaskTime;
     long secondTaskTime;
@@ -22,15 +22,15 @@ public class CSVEncoder {
         if (FileExists(path + fileName)) {
             Debug.Log("Creating file");
             StreamWriter outStream = File.CreateText(path + fileName);
-            outStream.WriteLine("Task 1,Task 2,Task 3");
+            outStream.WriteLine("Task 1,Task 2,Task 3,Total");
             outStream.Close();
         }
     }
 
     // Adds a line to CSV file - It may be a good idea to call this method after SetThirdTaskTime(millis)
-    private void UpdateFile(string fileName) {
+    public void UpdateFile() {
         Debug.Log("Updating file");
-        File.AppendAllText(path + fileName, GetFirstTaskTime() + "," + GetSecondTaskTime() + "," + GetThirdTaskTime() + "\n" );
+        File.AppendAllText(path + fileName, GetFirstTaskTime() + "," + GetSecondTaskTime() + "," + GetThirdTaskTime() + "," + GetTotalTasksTime() + "\n" );
     }
 
     private bool FileExists(string fileName) {
