@@ -182,7 +182,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                     if (objHit.tag == "Sphere")
                     {
                         // get GraphManager component
-                        //graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, true);
+                        graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, true);
                         // OutlineNodes(objHit.position)
                     }
 
@@ -211,7 +211,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
             if (outline.OutlineColor == Color.white)
             {
                 outline.enabled = false;
-                //graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
+                graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
                 objHit = null;
 
             }
