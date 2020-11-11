@@ -89,6 +89,8 @@ public class CameraScript : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0) & !playerStop)
                 {
+                    GraphManager.GetComponent<GraphManager>().DebugLogGenres(objHit.transform.position);
+
                     playerStop = true;
                     outline.OutlineColor = orange;
                     outline.OutlineWidth = 30;

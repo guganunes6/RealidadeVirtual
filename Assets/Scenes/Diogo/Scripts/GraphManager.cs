@@ -45,7 +45,6 @@ public class GraphManager : MonoBehaviour
 
     private void CreateCylinder(Vector3 startPos, Vector3 endPos)
     {
-
         var diff = endPos - startPos;
         var position = startPos + (diff / 2);
         Quaternion tilt = Quaternion.FromToRotation(Vector3.up, diff);
@@ -101,34 +100,21 @@ public class GraphManager : MonoBehaviour
 
     private void InitializeNodes()
     {
+        var id = 0;
         foreach (var movie in movies.Values)
         {
-            nodes.Add(Int32.Parse(movie.getId()), new Node(movie));
+            nodes.Add(id, new Node(id, movie));
+            id++;
         }
     }
-    //private int M = 100;
-    //private void FixedUpdate()
-    //{
-    //    //while (M != 0)
-    //    //{
-    //    //    M--;
-    //    GenerateGraph();
-    //    foreach (var node in nodes.Values)
-    //    {
-    //        //node.position += node.velocity * Time.deltaTime;
-    //        var vel = node.velocity * Time.deltaTime;
-    //        node.position = new Vector3(node.position.x + vel.x, 0, node.position.z + vel.z);
 
-    //        //Debug.Log(node.id);
-    //    }
-    //}
     private void PreGenerateGraph()
     {
+        UnityEngine.Random.InitState(1);
         foreach (var node in nodes.Values)
         {
             //node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
             node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), 0, UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
-            //node.position = new Vector3(1, 1, 1);
         }
     }
     
@@ -157,8 +143,10 @@ public class GraphManager : MonoBehaviour
 
                     //Debug.DrawRay(otherNode.Item1.position, positionDiference.normalized, Color.blue);
                     //otherNode.Item1.velocity = force * Time.deltaTime * positionDiference.normalized * 0.4f;
-                    otherNode.Item1.velocity = force * positionDiference.normalized * 0.4f;
-                    otherNode.Item1.position = new Vector3(otherNode.Item1.position.x + otherNode.Item1.velocity.x, 0, otherNode.Item1.position.z + otherNode.Item1.velocity.z);
+                    var velocity = force * positionDiference.normalized * 0.4f;
+                    otherNode.Item1.velocity = velocity;
+                    otherNode.Item1.position = new Vector3(otherNode.Item1.position.x + velocity.x, 0, otherNode.Item1.position.z + velocity.z);
+                    //otherNode.Item1.position = new Vector3(otherNode.Item1.position.x + otherNode.Item1.velocity.x, otherNode.Item1.position.y + otherNode.Item1.velocity.y, otherNode.Item1.position.z + otherNode.Item1.velocity.z);
                 }
             }
         }
@@ -168,7 +156,7 @@ public class GraphManager : MonoBehaviour
     {
         foreach (var node in nodes.Values)
         {
-            node.position = new Vector3(node.position.x, Mathf.Pow(float.Parse(node.movie.getVoteAverage()), 1.2f), node.position.z);
+            node.position = new Vector3(node.position.x, Mathf.Pow(float.Parse(node.movie.getVoteAverage()), 1.5f), node.position.z);
         }
     }
     public void CalculateNeighbours()
@@ -202,9 +190,18 @@ public class GraphManager : MonoBehaviour
         return numberOfEqualGenres;
     }
 
+    public void DebugLogGenres(Vector3 nodePosition)
+    {
+        foreach (var node in nodes.Values)
+        {
+            if (node.position == nodePosition)
+            {
+                node.LogGenres();
+            }
+        }
+    }
     public void OutlineNodeEdges(Vector3 nodePosition, Color outlineColor, float outlineWidth, bool showOutline)
     {
-        Debug.Log("found function");
         Node nodeToOutline = null;
         // find node 
         foreach (var node in nodes.Values)
@@ -212,7 +209,6 @@ public class GraphManager : MonoBehaviour
             if (node.position == nodePosition)
             {
                 nodeToOutline = node;
-                Debug.Log("found node");
             }
         }
 
@@ -253,9 +249,10 @@ public class Node
     public DecodedNode movie;
     public Vector3 position;
     public Vector3 velocity;
-    public Node(DecodedNode m)
+    public Node(int nodeId, DecodedNode m)
     {
-        id = Int32.Parse(m.getId());
+        //id = Int32.Parse(m.getId());
+        id = nodeId;
         neighbours = new List<Tuple<Node, int>>();
         movie = m;
         position = Vector3.zero;
@@ -265,5 +262,13 @@ public class Node
     public void AddNeighbour(Tuple<Node, int> neighbour)
     {
         neighbours.Add(neighbour);
+    }
+
+    public void LogGenres()
+    {
+        foreach (var item in movie.getGenres())
+        {
+            Debug.Log(item);
+        }
     }
 }
