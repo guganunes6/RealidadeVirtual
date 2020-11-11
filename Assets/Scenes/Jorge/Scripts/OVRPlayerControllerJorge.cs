@@ -157,7 +157,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
                 ////////// MARK NODES
 
-                if (Input.GetMouseButtonDown(1) & outline.OutlineColor != orange)
+                if (OVRInput.GetDown(OVRInput.Button.One) & outline.OutlineColor != orange)
                 {
                     if (colorListIterator == 3)
                     {

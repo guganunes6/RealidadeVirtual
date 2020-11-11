@@ -7,7 +7,12 @@ public class RaycastTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider col) 
     {
         Debug.Log("Enter");
-        if (OVRPlayerControllerJorge.objHit == null | OVRPlayerControllerJorge.playerStop)
+        if (OVRPlayerControllerJorge.objHit == null)
+        {
+            OVRPlayerControllerJorge.colCount++;
+            OVRPlayerControllerJorge.objHit = col.gameObject;
+        }
+        else if (OVRPlayerControllerJorge.objHit.GetComponent<Outline>().enabled)
         {
             OVRPlayerControllerJorge.colCount++;
             OVRPlayerControllerJorge.objHit = col.gameObject;
