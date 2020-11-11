@@ -21,7 +21,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
     public static GameObject objHit = null;
 
-    private bool playerStop = false;
+    public static bool playerStop = false;
 
     private Color orange = new Color(1.0f, 0.64f, 0.0f);
 
@@ -50,46 +50,56 @@ public class OVRPlayerControllerJorge : MonoBehaviour
     private void Update()
     {
         ////////// CAMERA & PLAYER POSITIONS
-
-        Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
-        Vector2 secondaryAxis = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
-
-        float xValue = primaryAxis.x * Time.deltaTime * moveSpeedOVRController;
-        float zValue;
-
-        if (secondaryAxis == Vector2.zero)
+        if (!playerStop)
         {
-            zValue = primaryAxis.y * Time.deltaTime * moveSpeedOVRController;
-        }
-        else
-        {
-            zValue = secondaryAxis.y * Time.deltaTime * moveSpeedTeleportOVRController;
-        }
+            Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
+            Vector2 secondaryAxis = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
 
-        transform.position += eye.transform.forward * zValue;
-        transform.position += eye.transform.right * xValue;
+            float xValue = primaryAxis.x * Time.deltaTime * moveSpeedOVRController;
+            float zValue;
 
-        player.transform.position = transform.position;
+            if (secondaryAxis == Vector2.zero)
+            {
+                zValue = primaryAxis.y * Time.deltaTime * moveSpeedOVRController;
+            }
+            else
+            {
+                zValue = secondaryAxis.y * Time.deltaTime * moveSpeedTeleportOVRController;
+            }
+
+            transform.position += eye.transform.forward * zValue;
+            transform.position += eye.transform.right * xValue;
+
+            player.transform.position = transform.position;
+        }
 
         ////////// DECIDE RAYCAST SIDE
 
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
+        if (((!leftControllerRaycastOn & !rightControllerRaycastOn) | rightControllerRaycastOn) & OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger))
         {
             leftControllerRaycastOn = true;
             rightControllerRaycastOn = false;
-            Outline outline = objHit.GetComponent<Outline>();
-            outline.enabled = false;
-            objHit = null;
-            colCount = 0;
+
+            if (!playerStop)
+            {
+                Outline outline = objHit.GetComponent<Outline>();
+                outline.enabled = false;
+                objHit = null;
+                colCount = 0;   
+            }
         }
-        else if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
+        else if (((!leftControllerRaycastOn & !rightControllerRaycastOn) | leftControllerRaycastOn) & OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
         {
             leftControllerRaycastOn = false;
             rightControllerRaycastOn = true;
-            Outline outline = objHit.GetComponent<Outline>();
-            outline.enabled = false;
-            objHit = null;
-            colCount = 0;
+            
+            if (!playerStop)
+            {
+                Outline outline = objHit.GetComponent<Outline>();
+                outline.enabled = false;
+                objHit = null;
+                colCount = 0;   
+            }
         }
 
 
@@ -120,7 +130,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
                 /////////// SELECT & DESELECT NODE
 
-                if (Input.GetMouseButtonDown(0) & !playerStop)
+                if (!playerStop & ((leftControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger)) | (rightControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))))
                 {
                     playerStop = true;
                     outline.OutlineColor = orange;
@@ -136,7 +146,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                     audio.PlayOneShot(selectSound);
 
                 }
-                else if (Input.GetMouseButtonDown(0) & playerStop)
+                else if (playerStop & ((leftControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger)) | (rightControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))))
                 {
                     playerStop = false;
                     outline.OutlineColor = Color.white;
