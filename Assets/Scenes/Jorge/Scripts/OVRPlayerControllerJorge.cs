@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class OVRPlayerControllerJorge : MonoBehaviour
 {
+    public GameObject graphManager;
     public GameObject player;
     public GameObject eye;
     public GameObject leftController;
@@ -36,6 +37,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
     public bool rightControllerRaycastOn;
 
     public static int colCount = 0;
+
+    private GameObject selectedNode;
 
     private void Start()
     {
@@ -130,7 +133,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
                 /////////// SELECT & DESELECT NODE
 
-                if (!playerStop & ((leftControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger)) | (rightControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))))
+                if ((selectedNode == null) & !playerStop & ((leftControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger)) | (rightControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))))
                 {
                     playerStop = true;
                     outline.OutlineColor = orange;
@@ -143,14 +146,18 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                         Debug.Log("Time until select random node: " + Time.time);
                     }
 
+                    selectedNode = objHit;
+
                     audio.PlayOneShot(selectSound);
 
                 }
-                else if (playerStop & ((leftControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger)) | (rightControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))))
+                else if ((objHit == selectedNode) & playerStop & ((leftControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger)) | (rightControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))))
                 {
                     playerStop = false;
                     outline.OutlineColor = Color.white;
                     outline.OutlineWidth = 10;
+
+                    selectedNode = null;
 
                     audio.PlayOneShot(selectSound);
                 }
@@ -175,7 +182,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                     if (objHit.tag == "Sphere")
                     {
                         // get GraphManager component
-                        //GraphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, true);
+                        //graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, true);
                         // OutlineNodes(objHit.position)
                     }
 
@@ -183,36 +190,32 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                 }
 
                 ////////// ROTATE AROUND
-                /*
+                
                 if (playerStop)
                 {
-                    float xValueRotateAround = Input.GetAxis("Horizontal") * Time.deltaTime * rotateAroundSpeed;
+                    Vector2 primaryAxis = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick);
+
+                    float xValueRotateAround = primaryAxis.x * Time.deltaTime * rotateAroundSpeed;
                     //float zValueRotate = Input.GetAxis("Vertical") * Time.deltaTime * rotateSpeed;
                     transform.RotateAround(objHit.transform.position, Vector3.up, -xValueRotateAround);
-                    currentRotation.x = transform.localRotation.eulerAngles.y;
+                    //currentRotation.x = transform.localRotation.eulerAngles.y;
                     //transform.RotateAround(objHit.transform.position, Vector3.right, zValueRotate);
                     player.transform.position = transform.position;
                 }
-                */
+                
             }
         }
         else if (colCount == 0 & objHit != null)
         {
-            Debug.Log("YOOO");
             var outline = objHit.GetComponent<Outline>();
             if (outline.OutlineColor == Color.white)
             {
-                Debug.Log("PLZ ENTRA AQUI");
                 outline.enabled = false;
-                //GraphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
+                //graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
                 objHit = null;
 
             }
             colorListIterator = -1;
         }
-
-
-        Debug.Log("COLCOUNT " + colCount);
-        Debug.Log("OBJHIT " + objHit);
     }
 }
