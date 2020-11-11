@@ -218,6 +218,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: HandsManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5421836748557352745, guid: edbaa9488b6b93e42a2aa406b9407942,
+        type: 3}
+      propertyPath: _leftHand
+      value: 
+      objectReference: {fileID: 854368297}
+    - target: {fileID: 5421836748557352745, guid: edbaa9488b6b93e42a2aa406b9407942,
+        type: 3}
+      propertyPath: _rightHand
+      value: 
+      objectReference: {fileID: 1281112097}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edbaa9488b6b93e42a2aa406b9407942, type: 3}
 --- !u!1 &152048643 stripped
@@ -843,6 +853,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d7e23fd336a474b8bd3611f9687ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &854368297 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7002156820279563883, guid: efc9555b32f56b346af6e859308c3525,
+    type: 3}
+  m_PrefabInstance: {fileID: 1727140707}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &897354191
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,6 +995,16 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 8626675160672488926}
+    - target: {fileID: 8037404502111155013, guid: 3a05d621650be9d4eada6b1fc81ffc37,
+        type: 3}
+      propertyPath: spheresParent
+      value: 
+      objectReference: {fileID: 386883525}
+    - target: {fileID: 8037404502111155013, guid: 3a05d621650be9d4eada6b1fc81ffc37,
+        type: 3}
+      propertyPath: cylindersParent
+      value: 
+      objectReference: {fileID: 2257182}
     - target: {fileID: 8037404502111155014, guid: 3a05d621650be9d4eada6b1fc81ffc37,
         type: 3}
       propertyPath: m_Name
@@ -1046,6 +1072,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8037404502111155014, guid: 3a05d621650be9d4eada6b1fc81ffc37,
     type: 3}
   m_PrefabInstance: {fileID: 931872510}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1281112097 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7002156820094141966, guid: efc9555b32f56b346af6e859308c3525,
+    type: 3}
+  m_PrefabInstance: {fileID: 1727140707}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1321979040 stripped
 GameObject:

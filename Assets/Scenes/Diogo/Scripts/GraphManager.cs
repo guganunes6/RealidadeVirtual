@@ -16,15 +16,9 @@ public class GraphManager : MonoBehaviour
     public GameObject spherePrefab;
     private List<GameObject> spheres;
 
-    private GameObject spheresParent;
-    private GameObject cylindersParent;
+    public GameObject spheresParent;
+    public GameObject cylindersParent;
     public GameObject manager;
-
-    private void Start()
-    {
-        spheresParent = GameObject.Find("Spheres");
-        cylindersParent = GameObject.Find("Cylinders");
-    }
 
     public void InitializeGraphManager(Dictionary<string, DecodedNode> decodedMovies)
     {
@@ -51,7 +45,7 @@ public class GraphManager : MonoBehaviour
         cyl.transform.localScale = new Vector3(cylinderPrefab.transform.localScale.x, diff.magnitude / 2, cylinderPrefab.transform.localScale.x);
         cyl.transform.rotation = tilt;
         cylinders.Add(cyl);
-        //cyl.transform.parent = cylindersParent.transform;
+        cyl.transform.parent = cylindersParent.transform;
     }
 
     private void InstanciateCylinders()
@@ -76,7 +70,7 @@ public class GraphManager : MonoBehaviour
         {
             var sphere = Instantiate(spherePrefab, node.position, Quaternion.identity);
             spheres.Add(sphere);
-            //sphere.transform.parent = spheresParent.transform;
+            sphere.transform.parent = spheresParent.transform;
         }
     }
 
