@@ -268,7 +268,7 @@ public class Node
     {
         foreach (var item in movie.getGenres())
         {
-            Debug.Log(item);
+            Debug.Log(movie.getTitle() + " " + item);
         }
     }
 }
