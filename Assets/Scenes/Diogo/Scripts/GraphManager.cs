@@ -35,11 +35,12 @@ public class GraphManager : MonoBehaviour
         spheres = new List<GameObject>();
         InitializeNodes();
         CalculateNeighbours();
-        //GenerateGraph();
         PreGenerateGraph();
-        //InstanciateCylinders();
-        //InstanciateSpheres();
-        //manager.SetActive(true);
+        GenerateGraph();
+        AddGraphY();
+        InstanciateCylinders();
+        InstanciateSpheres();
+        manager.SetActive(true);
     }
 
     private void CreateCylinder(Vector3 startPos, Vector3 endPos)
@@ -105,51 +106,71 @@ public class GraphManager : MonoBehaviour
             nodes.Add(Int32.Parse(movie.getId()), new Node(movie));
         }
     }
-    private void Update()
-    {
-        GenerateGraph();
-        foreach (var node in nodes.Values)
-        {
-            node.position += node.velocity * Time.deltaTime;
-            //Debug.Log(node.id);
-        }
-    }
+    //private int M = 100;
+    //private void FixedUpdate()
+    //{
+    //    //while (M != 0)
+    //    //{
+    //    //    M--;
+    //    GenerateGraph();
+    //    foreach (var node in nodes.Values)
+    //    {
+    //        //node.position += node.velocity * Time.deltaTime;
+    //        var vel = node.velocity * Time.deltaTime;
+    //        node.position = new Vector3(node.position.x + vel.x, 0, node.position.z + vel.z);
+
+    //        //Debug.Log(node.id);
+    //    }
+    //}
     private void PreGenerateGraph()
     {
         foreach (var node in nodes.Values)
         {
-            node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
+            //node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
+            node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), 0, UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
             //node.position = new Vector3(1, 1, 1);
         }
     }
+    
     public void GenerateGraph()
     {
-        foreach (var node in nodes.Values)
+        for (int i = 0; i < 100; i++)
         {
-            var c = node.neighbours.Count == 29;
-            Debug.Log("nodeId: " + node.id + "Len neighbours: " +  node.neighbours.Count + " correct:" + c);
-            foreach (var otherNode in node.neighbours)
+            foreach (var node in nodes.Values)
             {
-                var positionDiference = node.position - otherNode.Item1.position;
-                var distance = positionDiference.magnitude;
-
-                float force;
-                if (otherNode.Item2 > 0)
+                //Debug.Log("nodeId: " + node.id + "Len neighbours: ");
+                foreach (var otherNode in node.neighbours)
                 {
-                    force = connectedNodeForce * Mathf.Log(distance / minConnectedDistance);
+                    var positionDiference = node.position - otherNode.Item1.position;
+                    var distance = positionDiference.magnitude;
 
-                    //force = connectedNodeForce * Mathf.Log10(distance / minConnectedDistance);
-                }
-                else
-                {
-                    force = disconnectedNodeForce / Mathf.Pow(distance, 2);
-                }
+                    float force;
+                    if (otherNode.Item2 > 0)
+                    {
+                        force = connectedNodeForce * Mathf.Log(distance / minConnectedDistance);
+                    }
+                    else
+                    {
+                        force = disconnectedNodeForce / Mathf.Pow(distance, 2);
+                        //Debug.Log(force);
+                    }
 
-                otherNode.Item1.velocity = force * Time.deltaTime * positionDiference.normalized * 0.4f;
+                    //Debug.DrawRay(otherNode.Item1.position, positionDiference.normalized, Color.blue);
+                    //otherNode.Item1.velocity = force * Time.deltaTime * positionDiference.normalized * 0.4f;
+                    otherNode.Item1.velocity = force * positionDiference.normalized * 0.4f;
+                    otherNode.Item1.position = new Vector3(otherNode.Item1.position.x + otherNode.Item1.velocity.x, 0, otherNode.Item1.position.z + otherNode.Item1.velocity.z);
+                }
             }
         }
     }
 
+    public void AddGraphY()
+    {
+        foreach (var node in nodes.Values)
+        {
+            node.position = new Vector3(node.position.x, Mathf.Pow(float.Parse(node.movie.getVoteAverage()), 1.2f), node.position.z);
+        }
+    }
     public void CalculateNeighbours()
     {
         foreach (var node in nodes.Values)

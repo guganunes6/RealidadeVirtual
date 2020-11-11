@@ -151,10 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122602a3b29b83c42ab73fb00de5c6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connectedNodeForce: 2
-  minConnectedDistance: 0.5
-  disconnectedNodeForce: 0.3
-  graphCanvasSize: 0.1
+  connectedNodeForce: 1
+  minConnectedDistance: 6
+  disconnectedNodeForce: 0.5
+  graphCanvasSize: 200
   cylinderPrefab: {fileID: 7960853812639014517, guid: 89bbcdcaaa8bcb54d92f5e9905649b3b,
     type: 3}
   spherePrefab: {fileID: 7841032801911390119, guid: b6abb9695055f8742a3d65fc47aa9931,
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03f32a2bf26d4b4f8b13944892d8bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfMovies: 30
+  NumberOfMovies: 40
 --- !u!4 &370698112
 Transform:
   m_ObjectHideFlags: 0
