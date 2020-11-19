@@ -22,6 +22,7 @@ public class GraphManager : MonoBehaviour
     private GameObject spheresParent;
     public GameObject manager;
 
+    public GameObject MovieUI;
     private void Start()
     {
         spheresParent = GameObject.Find("Spheres");
@@ -197,6 +198,23 @@ public class GraphManager : MonoBehaviour
             if (node.position == nodePosition)
             {
                 node.LogGenres();
+            }
+        }
+    }
+    public void ToggleMovieUI(bool show, Vector3 nodePosition)
+    {
+        foreach (var node in nodes.Values)
+        {
+            if (node.position == nodePosition)
+            {
+                if(show)
+                {
+                    MovieUI.GetComponent<MovieUI>().ShowUI(node.movie);
+                }
+                else
+                {
+                    MovieUI.GetComponent<MovieUI>().HideUI();
+                }
             }
         }
     }

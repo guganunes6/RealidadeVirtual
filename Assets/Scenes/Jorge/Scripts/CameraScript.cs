@@ -90,6 +90,7 @@ public class CameraScript : MonoBehaviour
                 if (Input.GetMouseButtonDown(0) & !playerStop)
                 {
                     GraphManager.GetComponent<GraphManager>().DebugLogGenres(objHit.transform.position);
+                    GraphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit.transform.position);
 
                     playerStop = true;
                     outline.OutlineColor = orange;
@@ -106,6 +107,8 @@ public class CameraScript : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonDown(0) & playerStop)
                 {
+                    GraphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit.transform.position);
+
                     playerStop = false;
                     outline.OutlineColor = Color.white;
                     outline.OutlineWidth = 10;
