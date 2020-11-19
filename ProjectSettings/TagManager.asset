@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GraphManager
   - Sphere
+  - MovieUI
   layers:
   - Default
   - TransparentFX
