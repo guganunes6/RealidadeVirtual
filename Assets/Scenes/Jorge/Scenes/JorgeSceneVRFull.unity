@@ -1005,6 +1005,26 @@ PrefabInstance:
       propertyPath: cylindersParent
       value: 
       objectReference: {fileID: 2257182}
+    - target: {fileID: 8037404502111155013, guid: 3a05d621650be9d4eada6b1fc81ffc37,
+        type: 3}
+      propertyPath: disconnectedNodeForce
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8037404502111155013, guid: 3a05d621650be9d4eada6b1fc81ffc37,
+        type: 3}
+      propertyPath: connectedNodeForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8037404502111155013, guid: 3a05d621650be9d4eada6b1fc81ffc37,
+        type: 3}
+      propertyPath: minConnectedDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8037404502111155013, guid: 3a05d621650be9d4eada6b1fc81ffc37,
+        type: 3}
+      propertyPath: graphCanvasSize
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 8037404502111155014, guid: 3a05d621650be9d4eada6b1fc81ffc37,
         type: 3}
       propertyPath: m_Name
