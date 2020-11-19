@@ -20,6 +20,12 @@ public class GraphManager : MonoBehaviour
     public GameObject cylindersParent;
     public GameObject manager;
 
+    public GameObject MovieUI;
+    private void Start()
+    {
+        spheresParent = GameObject.Find("Spheres");
+    }
+
     public void InitializeGraphManager(Dictionary<string, DecodedNode> decodedMovies)
     {
         movies = decodedMovies;
@@ -137,6 +143,23 @@ public class GraphManager : MonoBehaviour
         return numberOfEqualGenres;
     }
 
+    public void ToggleMovieUI(bool show, Vector3 nodePosition)
+    {
+        foreach (var node in nodes.Values)
+        {
+            if (node.position == nodePosition)
+            {
+                if(show)
+                {
+                    MovieUI.GetComponent<MovieUI>().ShowUI(node.movie);
+                }
+                else
+                {
+                    MovieUI.GetComponent<MovieUI>().HideUI();
+                }
+            }
+        }
+    }
     public void OutlineNodeEdges(Vector3 nodePosition, Color outlineColor, float outlineWidth, bool showOutline)
     {
         Debug.Log("found function");
