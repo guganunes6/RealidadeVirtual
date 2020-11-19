@@ -99,21 +99,18 @@ public class DecodedNode {
 
     public void setGenres(string genres)
     {
-        if (genres.Length > 2 && genres.Trim()[1].ToString() == "[" && genres.Trim()[2].ToString() == "{") {
-            List<string> movieGenres = new List<string>(); 
-            string[] values = genres.Split(","[0]);
-            for (int i = 0; i < values.Length; i++) {
-                if (values[i].Contains("name")) {
-                    string[] aux = values[i].Split(":"[0]);
-                    string genre = aux[aux.Length - 1].Trim();
-                    
-                    // Accept only alphanumeric values
-                    Regex rgx = new Regex("[^a-zA-Z0-9 -]"); 
-                    movieGenres.Add(rgx.Replace(genre, ""));
-                }
-            }
-            this.genres = movieGenres;
+        List<string> movieGenres = new List<string>();
+        //Debug.Log("GENRESS: " + genres);
+        Regex r = new Regex("name\': \'([a-zA-Z ]+)");
+        var matches = r.Matches(genres);
+        foreach (Match match in matches)
+        {
+            //Debug.Log("match: " + match.Value);
+            //Debug.Log("match group: " + match.Groups[1]);
+            movieGenres.Add(match.Groups[1].Value);
         }
+
+        this.genres = movieGenres;
     }
 
     public string getHomepage()
