@@ -83,26 +83,30 @@ public class OVRPlayerControllerJorge : MonoBehaviour
             leftControllerRaycastOn = true;
             rightControllerRaycastOn = false;
 
-            if (!playerStop)
+            
+            if (!playerStop & objHit != null)
             {
                 Outline outline = objHit.GetComponent<Outline>();
                 outline.enabled = false;
                 objHit = null;
                 colCount = 0;   
             }
+            
         }
         else if (((!leftControllerRaycastOn & !rightControllerRaycastOn) | leftControllerRaycastOn) & OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger))
         {
             leftControllerRaycastOn = false;
             rightControllerRaycastOn = true;
             
-            if (!playerStop)
+            
+            if (!playerStop & objHit != null)
             {
                 Outline outline = objHit.GetComponent<Outline>();
                 outline.enabled = false;
                 objHit = null;
                 colCount = 0;   
             }
+            
         }
 
 
