@@ -163,7 +163,7 @@ public class GraphManager : MonoBehaviour
     {
         foreach (var node in nodes.Values)
         {
-            node.position = new Vector3(node.position.x, Mathf.Pow(float.Parse(node.movie.getVoteAverage()), 1.5f), node.position.z);
+            node.position = new Vector3(node.position.x, Mathf.Pow(float.Parse(node.movie.getVoteAverage(), new System.Globalization.CultureInfo("en-US").NumberFormat), 1.5f), node.position.z);
         }
     }
     public void CalculateNeighbours()
