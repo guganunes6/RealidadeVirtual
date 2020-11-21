@@ -11,6 +11,7 @@ public class GraphManager : MonoBehaviour
     public float disconnectedNodeForce;
     public float graphCanvasSize;
     public Dictionary<int, Node> nodes;
+    public List<Edge> edges;
     private Dictionary<string, DecodedNode> movies;
 
     public GameObject cylinderPrefab;
@@ -33,6 +34,7 @@ public class GraphManager : MonoBehaviour
     {
         movies = decodedMovies;
         nodes = new Dictionary<int, Node>();
+        edges = new List<Edge>();
         cylinders = new List<GameObject>();
         spheres = new List<GameObject>();
         InitializeNodes();
@@ -45,8 +47,10 @@ public class GraphManager : MonoBehaviour
         manager.SetActive(true);
     }
 
-    private void CreateCylinder(Vector3 startPos, Vector3 endPos)
+    private void CreateCylinder(Node node1, Node node2)
     {
+        var startPos = node1.position;
+        var endPos = node2.position;
         var diff = endPos - startPos;
         var position = startPos + (diff / 2);
         Quaternion tilt = Quaternion.FromToRotation(Vector3.up, diff);
@@ -54,6 +58,7 @@ public class GraphManager : MonoBehaviour
         var cyl = Instantiate(cylinderPrefab, position, Quaternion.identity);
         cyl.transform.localScale = new Vector3(cylinderPrefab.transform.localScale.x, diff.magnitude / 2, cylinderPrefab.transform.localScale.x);
         cyl.transform.rotation = tilt;
+        edges.Add(new Edge(node1, node2, cyl.transform.position));
         cylinders.Add(cyl);
         cyl.transform.parent = cylindersParent.transform;
     }
@@ -68,7 +73,7 @@ public class GraphManager : MonoBehaviour
             {
                 if (!nodesAdded.Contains(neighbour.Item1.id) && neighbour.Item2 > 0)
                 {
-                    CreateCylinder(node.position, neighbour.Item1.position);
+                    CreateCylinder(node, neighbour.Item1);
                 }
             }
         }
@@ -116,7 +121,6 @@ public class GraphManager : MonoBehaviour
         UnityEngine.Random.InitState(1);
         foreach (var node in nodes.Values)
         {
-            //node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
             node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), 0, UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
         }
     }
@@ -228,6 +232,8 @@ public class GraphManager : MonoBehaviour
         {
             if (node.position == nodePosition)
             {
+                node.isMarked = showOutline;
+                node.markedColor = outlineColor;
                 nodeToOutline = node;
             }
         }
@@ -251,6 +257,12 @@ public class GraphManager : MonoBehaviour
                             outline.OutlineColor = outlineColor;
                             outline.OutlineWidth = outlineWidth;
                         }
+                        else if (!showOutline && neighbour.Item1.isMarked)
+                        {
+                            outline.enabled = true;
+                            outline.OutlineColor = neighbour.Item1.markedColor;
+                            outline.OutlineWidth = outlineWidth;
+                        }
                         else
                         {
                             outline.enabled = false;
@@ -269,14 +281,17 @@ public class Node
     public DecodedNode movie;
     public Vector3 position;
     public Vector3 velocity;
+    public bool isMarked;
+    public Color markedColor;
     public Node(int nodeId, DecodedNode m)
     {
-        //id = Int32.Parse(m.getId());
         id = nodeId;
         neighbours = new List<Tuple<Node, int>>();
         movie = m;
         position = Vector3.zero;
         velocity = Vector3.zero;
+        isMarked = false;
+        markedColor = Color.clear;
     }
 
     public void AddNeighbour(Tuple<Node, int> neighbour)
@@ -290,5 +305,19 @@ public class Node
         {
             Debug.Log(movie.getTitle() + " " + item);
         }
+    }
+}
+
+public class Edge
+{
+    public Node node1;
+    public Node node2;
+    public Vector3 position;
+
+    public Edge(Node n1, Node n2, Vector3 pos)
+    {
+        node1 = n1;
+        node2 = n2;
+        position = pos;
     }
 }

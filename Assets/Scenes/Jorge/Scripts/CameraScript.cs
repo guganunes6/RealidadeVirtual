@@ -89,7 +89,6 @@ public class CameraScript : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0) & !playerStop)
                 {
-                    //GraphManager.GetComponent<GraphManager>().DebugLogGenres(objHit.transform.position);
                     GraphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit.transform.position);
 
                     playerStop = true;
