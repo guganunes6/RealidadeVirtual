@@ -11,9 +11,12 @@ public class Manager : MonoBehaviour
     {
         spheres = GameObject.Find("Spheres");
         int numberSpheres = spheres.transform.childCount;
-        int random = Random.Range(0, numberSpheres);
-        GameObject firstSelectedNode = spheres.transform.GetChild(random).gameObject;
-        NodeFeedback firstTest = firstSelectedNode.AddComponent<NodeFeedback>();
+        //int random = Random.Range(0, numberSpheres);
+        //GameObject firstSelectedNode = spheres.transform.GetChild(random).gameObject;
+        //NodeFeedback firstTest = firstSelectedNode.AddComponent<NodeFeedback>();
+        Task task = new Task1(spheres);
+        Task.currentTask = task; 
+        task.Start();
     }
 
 
