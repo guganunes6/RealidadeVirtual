@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public GameObject GraphManager;
+    public GameObject graphManager;
     public GameObject player;
 
     public float hitDistance = 2f;
@@ -89,7 +89,7 @@ public class CameraScript : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0) & !playerStop)
                 {
-                    GraphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit.transform.position);
+                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit.transform.position);
 
                     playerStop = true;
                     outline.OutlineColor = orange;
@@ -107,7 +107,7 @@ public class CameraScript : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonDown(0) & playerStop)
                 {
-                    GraphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit.transform.position);
+                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit.transform.position);
 
                     playerStop = false;
                     outline.OutlineColor = Color.white;
@@ -136,7 +136,7 @@ public class CameraScript : MonoBehaviour
                     if (objHit.tag == "Sphere")
                     {
                         // get GraphManager component
-                        GraphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, true);
+                        graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, true);
                         // OutlineNodes(objHit.position)
                     }
 
@@ -162,7 +162,7 @@ public class CameraScript : MonoBehaviour
             if (outline.OutlineColor == Color.white)
             {
                 outline.enabled = false;
-                GraphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
+                graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
                 objHit = null;
 
             }

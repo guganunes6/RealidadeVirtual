@@ -1005,6 +1005,11 @@ PrefabInstance:
       propertyPath: GraphManager
       value: 
       objectReference: {fileID: 370698109}
+    - target: {fileID: 4595048424515649111, guid: 55bb1d9b0b088d24e9dceb607211bbc0,
+        type: 3}
+      propertyPath: graphManager
+      value: 
+      objectReference: {fileID: 370698109}
     - target: {fileID: 4595048424515649131, guid: 55bb1d9b0b088d24e9dceb607211bbc0,
         type: 3}
       propertyPath: m_Name

@@ -139,6 +139,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
                 if ((selectedNode == null) & !playerStop & ((leftControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger)) | (rightControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))))
                 {
+                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit.transform.position);
+
                     playerStop = true;
                     outline.OutlineColor = orange;
                     outline.OutlineWidth = 30;
@@ -157,6 +159,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                 }
                 else if ((objHit == selectedNode) & playerStop & ((leftControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger)) | (rightControllerRaycastOn & OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger))))
                 {
+                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit.transform.position);
+
                     playerStop = false;
                     outline.OutlineColor = Color.white;
                     outline.OutlineWidth = 10;
