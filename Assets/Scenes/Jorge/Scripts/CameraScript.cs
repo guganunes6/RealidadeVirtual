@@ -89,7 +89,8 @@ public class CameraScript : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0) & !playerStop)
                 {
-                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit.transform.position);
+                    //graphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit.transform.position);
+                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit);
 
                     playerStop = true;
                     outline.OutlineColor = orange;
@@ -110,7 +111,8 @@ public class CameraScript : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonDown(0) & playerStop)
                 {
-                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit.transform.position);
+                    //graphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit.transform.position);
+                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit);
 
                     playerStop = false;
                     outline.OutlineColor = Color.white;

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7841032801911390115}
   - component: {fileID: 7841032801911390112}
   - component: {fileID: 7841032801911390113}
+  - component: {fileID: 2357103261116204266}
   m_Layer: 8
   m_Name: Sphere
   m_TagString: Sphere
@@ -112,3 +113,20 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &2357103261116204266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7841032801911390119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c915e887181364abfe996007d78284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  position: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  isMarked: 0
+  markedColor: {r: 0, g: 0, b: 0, a: 0}

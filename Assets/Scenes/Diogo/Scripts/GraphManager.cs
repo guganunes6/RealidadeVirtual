@@ -84,6 +84,7 @@ public class GraphManager : MonoBehaviour
         foreach (var node in nodes.Values)
         {
             var sphere = Instantiate(spherePrefab, node.position, Quaternion.identity);
+            sphere.GetComponent<Node>().Constructor(node.id, node.movie);
             spheres.Add(sphere);
             sphere.transform.parent = spheresParent.transform;
         }
@@ -207,21 +208,16 @@ public class GraphManager : MonoBehaviour
             }
         }
     }
-    public void ToggleMovieUI(bool show, Vector3 nodePosition)
+
+    public void ToggleMovieUI(bool show, GameObject nodeSphere)
     {
-        foreach (var node in nodes.Values)
+        if(show)
         {
-            if (node.position == nodePosition)
-            {
-                if(show)
-                {
-                    MovieUI.GetComponent<MovieUI>().ShowUI(node.movie);
-                }
-                else
-                {
-                    MovieUI.GetComponent<MovieUI>().HideUI();
-                }
-            }
+            MovieUI.GetComponent<MovieUI>().ShowUI(nodeSphere.GetComponent<Node>().movie);
+        }
+        else
+        {
+            MovieUI.GetComponent<MovieUI>().HideUI();
         }
     }
     public void OutlineNodeEdges(Vector3 nodePosition, Color outlineColor, float outlineWidth, bool showOutline)
@@ -274,39 +270,6 @@ public class GraphManager : MonoBehaviour
     }
 }
 
-public class Node
-{
-    public int id;
-    public List<Tuple<Node, int>> neighbours;
-    public DecodedNode movie;
-    public Vector3 position;
-    public Vector3 velocity;
-    public bool isMarked;
-    public Color markedColor;
-    public Node(int nodeId, DecodedNode m)
-    {
-        id = nodeId;
-        neighbours = new List<Tuple<Node, int>>();
-        movie = m;
-        position = Vector3.zero;
-        velocity = Vector3.zero;
-        isMarked = false;
-        markedColor = Color.clear;
-    }
-
-    public void AddNeighbour(Tuple<Node, int> neighbour)
-    {
-        neighbours.Add(neighbour);
-    }
-
-    public void LogGenres()
-    {
-        foreach (var item in movie.getGenres())
-        {
-            Debug.Log(movie.getTitle() + " " + item);
-        }
-    }
-}
 
 public class Edge
 {
