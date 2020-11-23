@@ -10,7 +10,7 @@ public class Task1 : Task {
     private GameObject spheres;
     GameObject firstSelectedNode;
 
-    public Task1(GameObject spheres) : base() {
+    public Task1(CSVEncoder encoder, GameObject spheres) : base(encoder) {
        this.spheres = spheres;
     }
 
@@ -23,8 +23,6 @@ public class Task1 : Task {
     public override void Stop(List<GameObject> objsHit) {
         // Stop Task
         Destroy(objsHit[0].GetComponent<Light>());
-        objsHit[0].GetComponent<Renderer>().material.color = Color.white;
-        Debug.Log("Time until select random node: " + Time.time);
         
         // Stop timer
         base.Stop(objsHit);
@@ -35,7 +33,7 @@ public class Task1 : Task {
 
     public override void StartNextTask() {
         Debug.Log("START TASK 2");
-        Task task2 = new Task2(spheres, firstSelectedNode);
+        Task task2 = new Task2(encoder, spheres, firstSelectedNode);
         Task.currentTask = task2;
         task2.Start();
     }

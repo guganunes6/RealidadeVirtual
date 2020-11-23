@@ -14,7 +14,8 @@ public class Manager : MonoBehaviour
         //int random = Random.Range(0, numberSpheres);
         //GameObject firstSelectedNode = spheres.transform.GetChild(random).gameObject;
         //NodeFeedback firstTest = firstSelectedNode.AddComponent<NodeFeedback>();
-        Task task = new Task1(spheres);
+        CSVEncoder encoder = new CSVEncoder("tasks_time");
+        Task task = new Task1(encoder, spheres);
         Task.currentTask = task; 
         task.Start();
     }
@@ -24,6 +25,12 @@ public class Manager : MonoBehaviour
     {
         if(Task.currentTask.ToContinue() & Input.GetKeyDown(KeyCode.Space)) {
             Task.currentTask.StartNextTask();
+        } else if(Task.currentTask.GetTaskId() == "2" & Input.GetKeyDown(KeyCode.Space)) {
+            // Might not have been the right node selected 
+            Task.currentTask.Stop(null);
+        } else if(Task.currentTask.GetTaskId() == "3" & Input.GetKeyDown(KeyCode.Space)) {
+            // Might not have been the right node selected 
+            Task.currentTask.Stop(null);
         }
     }
 }

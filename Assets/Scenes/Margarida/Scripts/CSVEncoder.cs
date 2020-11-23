@@ -19,7 +19,7 @@ public class CSVEncoder {
     }
 
     private void CreateFile(string fileName) {
-        if (FileExists(path + fileName)) {
+        if (!FileExists(path + fileName)) {
             Debug.Log("Creating file");
             StreamWriter outStream = File.CreateText(path + fileName);
             outStream.WriteLine("Task 1,Task 2,Task 3,Total");

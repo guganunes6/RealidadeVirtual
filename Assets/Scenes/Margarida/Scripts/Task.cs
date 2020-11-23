@@ -10,10 +10,10 @@ public abstract class Task : MonoBehaviour {
     public static Task currentTask;
     private bool toContinue;
 
-    public Task() {
+    public Task(CSVEncoder encoder) { // TODO - passar encoder pelo construtor
         timer = new Timer();
-        encoder = new CSVEncoder("tasks_time");
         toContinue = false;
+        this.encoder = encoder;
     }
 
     public virtual void Start() {
@@ -23,7 +23,7 @@ public abstract class Task : MonoBehaviour {
     public virtual void Stop(List<GameObject> objsHit) {
         timer.Stop();
         toContinue = true;
-        Debug.Log("Finishing task " + GetTaskId() + ", press ENTER to continue");
+        Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " milisseconds. Press ENTER to continue");
     }
 
     public bool ToContinue() {
