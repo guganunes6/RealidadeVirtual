@@ -22,6 +22,8 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        
+        if(Task.currentTask.ToContinue() & Input.GetKeyDown(KeyCode.Space)) {
+            Task.currentTask.StartNextTask();
+        }
     }
 }

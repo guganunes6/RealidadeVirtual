@@ -5,13 +5,15 @@ using System;
 
 public abstract class Task : MonoBehaviour {
 
-    private Timer timer;
-    private CSVEncoder encoder;
+    public  Timer timer;
+    public CSVEncoder encoder;
     public static Task currentTask;
+    private bool toContinue;
 
     public Task() {
         timer = new Timer();
-        //encoder = new CSVEncoder("tasks_time");
+        encoder = new CSVEncoder("tasks_time");
+        toContinue = false;
     }
 
     public virtual void Start() {
@@ -20,24 +22,16 @@ public abstract class Task : MonoBehaviour {
 
     public virtual void Stop(List<GameObject> objsHit) {
         timer.Stop();
-        
-        // Do input stuff
+        toContinue = true;
         Debug.Log("Finishing task " + GetTaskId() + ", press ENTER to continue");
-        StartCoroutine("Wait");
-        /*while (true) {
-            while (!Input.GetKeyDown(KeyCode.Space)) yield return null;
-            
-            Debug.Log("Hit ENTER"); 
-            yield return null;
-        }*/
-        Debug.Log("sisdjfb");
     }
 
-    public static Task GetCurrentTask() {
-        return currentTask;
+    public bool ToContinue() {
+        return toContinue;
     }
 
-    public abstract bool CanStop();
+    public abstract void StartNextTask();
 
     public abstract string GetTaskId();
+
 }
