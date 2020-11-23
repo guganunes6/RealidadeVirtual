@@ -89,7 +89,6 @@ public class CameraScript : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0) & !playerStop)
                 {
-                    //graphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit.transform.position);
                     graphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit);
 
                     playerStop = true;
@@ -111,7 +110,6 @@ public class CameraScript : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonDown(0) & playerStop)
                 {
-                    //graphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit.transform.position);
                     graphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit);
 
                     playerStop = false;
@@ -140,9 +138,7 @@ public class CameraScript : MonoBehaviour
 
                     if (objHit.tag == "Sphere")
                     {
-                        // get GraphManager component
-                        graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, true);
-                        // OutlineNodes(objHit.position)
+                        graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit, outline.OutlineColor, 10, colorListIterator != -1);
                     }
 
                     audio.PlayOneShot(markSound);
@@ -167,7 +163,6 @@ public class CameraScript : MonoBehaviour
             if (outline.OutlineColor == Color.white)
             {
                 outline.enabled = false;
-                graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit.transform.position, outline.OutlineColor, 10, false);
                 objHit = null;
 
             }

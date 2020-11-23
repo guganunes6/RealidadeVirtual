@@ -20,7 +20,7 @@ public class Node : MonoBehaviour
     [HideInInspector]
     public Color markedColor;
 
-    public Node(int nodeId, DecodedNode m)
+    public void NodeConstructor(int nodeId, DecodedNode m)
     {
         id = nodeId;
         neighbours = new List<Tuple<Node, int>>();
@@ -30,7 +30,6 @@ public class Node : MonoBehaviour
         isMarked = false;
         markedColor = Color.clear;
     }
-
     public void AddNeighbour(Tuple<Node, int> neighbour)
     {
         neighbours.Add(neighbour);
@@ -44,15 +43,9 @@ public class Node : MonoBehaviour
         }
     }
 
-    public void Constructor(int nodeId, DecodedNode m)
+    public void setPosition(Vector3 newPosition)
     {
-        id = nodeId;
-        neighbours = new List<Tuple<Node, int>>();
-        movie = m;
-        position = Vector3.zero;
-        velocity = Vector3.zero;
-        isMarked = false;
-        markedColor = Color.clear;
+        position = newPosition;
+        gameObject.transform.position = newPosition;
     }
-
 }

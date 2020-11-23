@@ -43,7 +43,6 @@ public class GraphManager : MonoBehaviour
         GenerateGraph();
         AddGraphY();
         InstanciateCylinders();
-        InstanciateSpheres();
         manager.SetActive(true);
     }
 
@@ -79,32 +78,13 @@ public class GraphManager : MonoBehaviour
         }
     }
 
-    private void InstanciateSpheres()
+    private GameObject InstanciateSphere(int id, DecodedNode movie)
     {
-        foreach (var node in nodes.Values)
-        {
-            var sphere = Instantiate(spherePrefab, node.position, Quaternion.identity);
-            sphere.GetComponent<Node>().Constructor(node.id, node.movie);
-            spheres.Add(sphere);
-            sphere.transform.parent = spheresParent.transform;
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        foreach (var node in nodes.Values)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(node.position, 0.2f);
-            Gizmos.color = Color.green;
-            foreach (var otherNode in node.neighbours)
-            {
-                if (otherNode.Item2 > 0)
-                {
-                    Gizmos.DrawLine(node.position, otherNode.Item1.position);
-                }
-            }
-        }
+        var sphere = Instantiate(spherePrefab, Vector3.zero, Quaternion.identity);
+        sphere.GetComponent<Node>().NodeConstructor(id, movie);
+        spheres.Add(sphere);
+        sphere.transform.parent = spheresParent.transform;
+        return sphere;
     }
 
     private void InitializeNodes()
@@ -112,7 +92,8 @@ public class GraphManager : MonoBehaviour
         var id = 0;
         foreach (var movie in movies.Values)
         {
-            nodes.Add(id, new Node(id, movie));
+            var newNode = InstanciateSphere(id, movie);
+            nodes.Add(id, newNode.GetComponent<Node>());
             id++;
         }
     }
@@ -132,7 +113,6 @@ public class GraphManager : MonoBehaviour
         {
             foreach (var node in nodes.Values)
             {
-                //Debug.Log("nodeId: " + node.id + "Len neighbours: ");
                 foreach (var otherNode in node.neighbours)
                 {
                     var positionDiference = node.position - otherNode.Item1.position;
@@ -146,15 +126,11 @@ public class GraphManager : MonoBehaviour
                     else
                     {
                         force = disconnectedNodeForce / Mathf.Pow(distance, 2);
-                        //Debug.Log(force);
                     }
 
-                    //Debug.DrawRay(otherNode.Item1.position, positionDiference.normalized, Color.blue);
-                    //otherNode.Item1.velocity = force * Time.deltaTime * positionDiference.normalized * 0.4f;
                     var velocity = force * positionDiference.normalized * 0.4f;
                     otherNode.Item1.velocity = velocity;
-                    otherNode.Item1.position = new Vector3(otherNode.Item1.position.x + velocity.x, 0, otherNode.Item1.position.z + velocity.z);
-                    //otherNode.Item1.position = new Vector3(otherNode.Item1.position.x + otherNode.Item1.velocity.x, otherNode.Item1.position.y + otherNode.Item1.velocity.y, otherNode.Item1.position.z + otherNode.Item1.velocity.z);
+                    otherNode.Item1.setPosition(new Vector3(otherNode.Item1.position.x + velocity.x, 0, otherNode.Item1.position.z + velocity.z));
                 }
             }
         }
@@ -164,7 +140,7 @@ public class GraphManager : MonoBehaviour
     {
         foreach (var node in nodes.Values)
         {
-            node.position = new Vector3(node.position.x, Mathf.Pow(float.Parse(node.movie.getVoteAverage(), new System.Globalization.CultureInfo("en-US").NumberFormat), 1.5f), node.position.z);
+            node.setPosition(new Vector3(node.position.x, Mathf.Pow(float.Parse(node.movie.getVoteAverage(), new System.Globalization.CultureInfo("en-US").NumberFormat), 1.5f), node.position.z));
         }
     }
     public void CalculateNeighbours()
@@ -220,19 +196,11 @@ public class GraphManager : MonoBehaviour
             MovieUI.GetComponent<MovieUI>().HideUI();
         }
     }
-    public void OutlineNodeEdges(Vector3 nodePosition, Color outlineColor, float outlineWidth, bool showOutline)
+    public void OutlineNodeEdges(GameObject nodeSphere, Color outlineColor, float outlineWidth, bool showOutline)
     {
-        Node nodeToOutline = null;
-        // find node 
-        foreach (var node in nodes.Values)
-        {
-            if (node.position == nodePosition)
-            {
-                node.isMarked = showOutline;
-                node.markedColor = outlineColor;
-                nodeToOutline = node;
-            }
-        }
+        Node nodeToOutline = nodeSphere.GetComponent<Node>();
+        nodeToOutline.isMarked = showOutline;
+        nodeToOutline.markedColor = outlineColor;
 
         foreach (var neighbour in nodeToOutline.neighbours)
         {
@@ -255,9 +223,7 @@ public class GraphManager : MonoBehaviour
                         }
                         else if (!showOutline && neighbour.Item1.isMarked)
                         {
-                            outline.enabled = true;
                             outline.OutlineColor = neighbour.Item1.markedColor;
-                            outline.OutlineWidth = outlineWidth;
                         }
                         else
                         {
