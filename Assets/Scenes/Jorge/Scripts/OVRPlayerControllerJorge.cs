@@ -40,6 +40,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
     private GameObject selectedNode;
 
+    public Canvas canvasWS;
+
     private void Start()
     {
         colorsList.Add(Color.green);
@@ -221,6 +223,16 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
             }
             colorListIterator = -1;
+        }
+
+        ////////// CANVAS POSITION
+        
+        if (selectedNode != null)
+        {
+            Debug.Log(this.transform.position);
+            Debug.Log(selectedNode.transform.position);
+            canvasWS.transform.position = (this.transform.position + selectedNode.transform.position) / 2;
+            canvasWS.transform.LookAt(this.transform);
         }
     }
 }
