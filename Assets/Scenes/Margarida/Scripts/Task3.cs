@@ -52,7 +52,13 @@ public class Task3 : Task {
     public override void Start() {
         base.Start();
 
+<<<<<<< HEAD
         mainSphere = spheres.transform.GetChild(2).gameObject;
+=======
+        mainSphere = spheres.transform.GetChild(19).gameObject;
+        mainSphere.AddComponent<NodeFeedback>();
+
+>>>>>>> d58a99760527a401e47cea43aaf4873e9bf65e91
         mainSphere.GetComponent<Renderer>().material.color = Color.red;
         
         goalGenre = mainSphere.GetComponent<Node>().movie.getGenres()[0]; // Only counts the first genre

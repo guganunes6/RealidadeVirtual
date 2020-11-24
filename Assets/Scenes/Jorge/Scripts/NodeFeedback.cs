@@ -6,8 +6,8 @@ using UnityEngine;
 public class NodeFeedback : MonoBehaviour
 {
     private Light light;
-    private float maxRange = 25f;
-    private float minRange = 5f;
+    private float maxRange = 12f;
+    private float minRange = 2f;
     private float radiusSpeed = 10f;
     private float targetRadius = 25f;
     private float currentRadius;
@@ -17,7 +17,7 @@ public class NodeFeedback : MonoBehaviour
         //Debug.Log("Started by: " + gameObject);
         light = gameObject.AddComponent<Light>();
         light.color = Color.red;
-        light.intensity = 20;
+        light.intensity = 10;
 
         gameObject.GetComponent<Renderer>().material.color = Color.red;
     }

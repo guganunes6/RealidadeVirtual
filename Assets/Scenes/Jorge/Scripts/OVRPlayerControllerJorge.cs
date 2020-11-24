@@ -40,6 +40,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
     private GameObject selectedNode;
 
+    public Canvas canvasWS;
+
     private void Start()
     {
         colorsList.Add(Color.green);
@@ -145,12 +147,15 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                     outline.OutlineColor = orange;
                     outline.OutlineWidth = 30;
 
+                    /*
                     if (objHit.GetComponent<Light>() != null)
                     {
                         Destroy(objHit.GetComponent<Light>());
                         objHit.GetComponent<Renderer>().material.color = Color.white;
                         Debug.Log("Time until select random node: " + Time.time);
                     }
+                    */
+                    Task.currentTask.StopTask(objHit);
 
                     selectedNode = objHit;
 
@@ -221,6 +226,14 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
             }
             colorListIterator = -1;
+        }
+
+        ////////// CANVAS POSITION
+        
+        if (selectedNode != null)
+        {
+            canvasWS.transform.position = (this.transform.position + selectedNode.transform.position) / 2;
+            canvasWS.transform.LookAt(this.transform);
         }
     }
 }
