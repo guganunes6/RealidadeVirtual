@@ -24,7 +24,7 @@ public abstract class Task : MonoBehaviour {
     {
         timer.Stop();
         toContinue = true;
-        Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " milisseconds. Press ENTER to continue");
+        Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " seconds. Press ENTER to continue");
     }
 
     public bool ToContinue() {
