@@ -95,15 +95,16 @@ public class CameraScript : MonoBehaviour
                     outline.OutlineColor = orange;
                     outline.OutlineWidth = 30;
 
-                    if (objHit.GetComponent<Light>() != null)
-                    {
-                        List<GameObject> objsHit = new List<GameObject>();
-                        objsHit.Add(objHit);
-                        Task.currentTask.Stop(objsHit);
-                        //Destroy(objHit.GetComponent<Light>());
-                        //objHit.GetComponent<Renderer>().material.color = Color.white;
-                        //Debug.Log("Time until select random node: " + Time.time);
-                    }
+                    //if (objHit.GetComponent<Light>() != null)
+                    //{
+                    //    List<GameObject> objsHit = new List<GameObject>();
+                    //    objsHit.Add(objHit);
+                    //    Task.currentTask.Stop(objsHit);
+                    //    //Destroy(objHit.GetComponent<Light>());
+                    //    //objHit.GetComponent<Renderer>().material.color = Color.white;
+                    //    //Debug.Log("Time until select random node: " + Time.time);
+                    //}
+                    Task.currentTask.StopTask(objHit);
 
                     audio.PlayOneShot(selectSound);
 

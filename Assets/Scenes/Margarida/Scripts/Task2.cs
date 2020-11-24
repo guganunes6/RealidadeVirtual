@@ -31,15 +31,30 @@ public class Task2 : Task {
         //Debug.Log(highestClassifiedNeighbour.movie.getOriginalTitle());
     }
 
-    public override void Stop(List<GameObject> objsHit) {
-        // Stop Task
-        mainSphere.GetComponent<Renderer>().material.color = Color.white;
+    //public override void Stop(List<GameObject> objsHit) {
+    //    // Stop Task
+    //    mainSphere.GetComponent<Renderer>().material.color = Color.white;
         
-        // Stop timer
-        base.Stop(objsHit);
+    //    // Stop timer
+    //    base.Stop(objsHit);
 
-        // Update time to CSV file
-        encoder.SetSecondTaskTime(timer.GetTime());
+    //    // Update time to CSV file
+    //    encoder.SetSecondTaskTime(timer.GetTime());
+    //}
+
+    public override void StopTask(GameObject objHit)
+    {
+        if (objHit == goalSphere)
+        {
+            // Stop Task
+            mainSphere.GetComponent<Renderer>().material.color = Color.white;
+
+            // Stop timer
+            base.StopTimer();
+
+            // Update time to CSV file
+            encoder.SetSecondTaskTime(timer.GetTime());
+        }
     }
 
     public override void StartNextTask() {

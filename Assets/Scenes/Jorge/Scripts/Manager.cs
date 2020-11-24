@@ -27,10 +27,10 @@ public class Manager : MonoBehaviour
             Task.currentTask.StartNextTask();
         } else if(Task.currentTask.GetTaskId() == "2" & Input.GetKeyDown(KeyCode.Space)) {
             // Might not have been the right node selected 
-            Task.currentTask.Stop(null);
+            Task.currentTask.StopTask(null);
         } else if(Task.currentTask.GetTaskId() == "3" & Input.GetKeyDown(KeyCode.Space)) {
             // Might not have been the right node selected 
-            Task.currentTask.Stop(null);
+            Task.currentTask.StopTask(null);
         }
     }
 }

@@ -20,11 +20,21 @@ public class Task3 : Task {
 
     }
 
-    public override void Stop(List<GameObject> objsHit) {
+    //public override void Stop(List<GameObject> objsHit) {
+    //    // Stop Task
+
+    //    // Stop timer
+    //    base.Stop(objsHit);
+
+    //    // Update time to CSV file
+    //    encoder.SetThirdTaskTime(timer.GetTime());
+    //}
+    public override void StopTask(GameObject objsHit)
+    {
         // Stop Task
-        
+
         // Stop timer
-        base.Stop(objsHit);
+        base.StopTimer();
 
         // Update time to CSV file
         encoder.SetThirdTaskTime(timer.GetTime());

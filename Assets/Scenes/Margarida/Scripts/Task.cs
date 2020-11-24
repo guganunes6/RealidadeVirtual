@@ -20,7 +20,9 @@ public abstract class Task : MonoBehaviour {
         timer.Start();
     }
 
-    public virtual void Stop(List<GameObject> objsHit) {
+    //public virtual void Stop(List<GameObject> objsHit) {
+    public virtual void StopTimer()
+    {
         timer.Stop();
         toContinue = true;
         Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " milisseconds. Press ENTER to continue");
@@ -30,6 +32,7 @@ public abstract class Task : MonoBehaviour {
         return toContinue;
     }
 
+    public abstract void StopTask(GameObject objHit);
     public abstract void StartNextTask();
 
     public abstract string GetTaskId();

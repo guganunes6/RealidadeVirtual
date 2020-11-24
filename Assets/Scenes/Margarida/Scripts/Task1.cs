@@ -20,15 +20,29 @@ public class Task1 : Task {
         NodeFeedback firstTest = firstSelectedNode.AddComponent<NodeFeedback>();
     }
 
-    public override void Stop(List<GameObject> objsHit) {
-        // Stop Task
-        Destroy(objsHit[0].GetComponent<Light>());
-        
-        // Stop timer
-        base.Stop(objsHit);
+    //public override void Stop(List<GameObject> objsHit) {
+    //    // Stop Task
+    //    Destroy(objsHit[0].GetComponent<Light>());
 
-        // Update time to CSV file
-        encoder.SetFirstTaskTime(timer.GetTime());
+    //    // Stop timer
+    //    base.Stop(objsHit);
+
+    //    // Update time to CSV file
+    //    encoder.SetFirstTaskTime(timer.GetTime());
+    //}
+    public override void StopTask(GameObject objHit)
+    {
+        if (objHit.GetComponent<Light>() != null)
+        {
+            // Stop Task
+            Destroy(objHit.GetComponent<Light>());
+
+            // Stop timer
+            base.StopTimer();
+
+            // Update time to CSV file
+            encoder.SetFirstTaskTime(timer.GetTime());
+        }
     }
 
     public override void StartNextTask() {
