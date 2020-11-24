@@ -30,8 +30,8 @@ public class Timer {
         stopwatch.Stop();
     }
 
-    public long GetTime() {
-        return stopwatch.ElapsedMilliseconds;
+    public double GetTime() {
+        return stopwatch.ElapsedMilliseconds/1000.0d;
     }
 
 }

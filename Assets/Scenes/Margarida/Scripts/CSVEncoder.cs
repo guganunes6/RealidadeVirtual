@@ -9,9 +9,9 @@ public class CSVEncoder {
     string extension = ".csv";
     string path = "Assets\\Scenes\\Times\\"; 
 
-    long firstTaskTime;
-    long secondTaskTime;
-    long thirdTaskTime;
+    double firstTaskTime;
+    double secondTaskTime;
+    double thirdTaskTime;
 
     public CSVEncoder(string fileName) {
         this.fileName = fileName;
@@ -37,34 +37,34 @@ public class CSVEncoder {
         return File.Exists(fileName);
     }
 
-    public void SetFirstTaskTime(long millis) {
+    public void SetFirstTaskTime(double millis) {
         firstTaskTime = millis;
     }
 
-    public void SetSecondTaskTime(long millis) {
+    public void SetSecondTaskTime(double millis) {
         if (firstTaskTime <= 0) { Debug.Log("ALERT: You are inserting the time that the second task takes with the time of the first task equal to 0."); }
         secondTaskTime = millis;
     }
 
-    public void SetThirdTaskTime(long millis) {
+    public void SetThirdTaskTime(double millis) {
         if (firstTaskTime <= 0) { Debug.Log("ALERT: You are inserting the time that the third task takes with the time of the first task equal to 0."); }
         if (secondTaskTime <= 0) { Debug.Log("ALERT: You are inserting the time that the third task takes with the time of the second task equal to 0."); }
         thirdTaskTime = millis;
     }
 
-    public long GetFirstTaskTime() {
+    public double GetFirstTaskTime() {
         return firstTaskTime;
     }
 
-    public long GetSecondTaskTime() {
+    public double GetSecondTaskTime() {
         return secondTaskTime;
     }
 
-    public long GetThirdTaskTime() {
+    public double GetThirdTaskTime() {
         return thirdTaskTime;
     }
 
-    public long GetTotalTasksTime() {
+    public double GetTotalTasksTime() {
         return GetFirstTaskTime() + GetSecondTaskTime() + GetThirdTaskTime();
     }
 
