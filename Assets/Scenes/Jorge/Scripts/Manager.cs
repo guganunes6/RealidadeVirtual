@@ -23,12 +23,12 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        if(Task.currentTask.ToContinue() & Input.GetKeyDown(KeyCode.Space)) {
+        if(Task.currentTask.ToContinue() & Input.GetKeyDown(KeyCode.Return)) {
             Task.currentTask.StartNextTask();
-        } else if(Task.currentTask.GetTaskId() == "2" & Input.GetKeyDown(KeyCode.Space)) {
+        } else if(Task.currentTask.GetTaskId() == "2" & Input.GetKeyDown(KeyCode.Return)) {
             // Might not have been the right node selected 
             Task.currentTask.StopTask(null);
-        } else if(Task.currentTask.GetTaskId() == "3" & Input.GetKeyDown(KeyCode.Space)) {
+        } else if(Task.currentTask.GetTaskId() == "3" & Input.GetKeyDown(KeyCode.Return)) {
             // Might not have been the right node selected 
             Task.currentTask.StopTask(null);
         }

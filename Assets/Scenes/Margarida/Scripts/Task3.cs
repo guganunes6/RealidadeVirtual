@@ -29,6 +29,7 @@ public class Task3 : Task {
             if (sphere.gameObject.GetComponent<Node>().movie != null) {
                 if(sphere.gameObject.GetComponent<Node>().movie.getGenres().Contains(goalGenre)) {
                     goalSpheres.Add(sphere.gameObject);
+                    sphere.gameObject.GetComponent<Renderer>().material.color = Color.blue;
                 }
             }
         }
@@ -36,11 +37,14 @@ public class Task3 : Task {
     }
 
     public void SelectNode(GameObject hit) {
-        string hitTitle = hit.GetComponent<Node>().movie.getOriginalTitle();
-        if (!selectedNodes.Where(n => n.GetComponent<Node>().movie.getOriginalTitle() == hitTitle).Any()) {
-            if (goalNodes.Where(n => n.GetComponent<Node>().movie.getOriginalTitle() == hitTitle).Any()) {
-                selectedNodes.Add(hit);
-                Debug.Log((goalNodes.Count - selectedNodes.Count) + " nodes remaining.");
+        if (hit != null) {
+            string hitTitle = hit.GetComponent<Node>().movie.getOriginalTitle();
+            if (!selectedNodes.Where(n => n.GetComponent<Node>().movie.getOriginalTitle() == hitTitle).Any()) {
+                if (goalNodes.Where(n => n.GetComponent<Node>().movie.getOriginalTitle() == hitTitle).Any()) {
+                    selectedNodes.Add(hit);
+                    hit.GetComponent<Renderer>().material.color = Color.white;
+                    Debug.Log((goalNodes.Count - selectedNodes.Count) + " nodes remaining.");
+                }
             }
         }
     }
@@ -48,7 +52,7 @@ public class Task3 : Task {
     public override void Start() {
         base.Start();
 
-        mainSphere = spheres.transform.GetChild(19).gameObject;
+        mainSphere = spheres.transform.GetChild(2).gameObject;
         mainSphere.GetComponent<Renderer>().material.color = Color.red;
         
         goalGenre = mainSphere.GetComponent<Node>().movie.getGenres()[0]; // Only counts the first genre
@@ -56,16 +60,6 @@ public class Task3 : Task {
         
         selectedNodes = new List<GameObject>();
     }
-
-    //public override void Stop(List<GameObject> objsHit) {
-    //    // Stop Task
-
-    //    // Stop timer
-    //    base.Stop(objsHit);
-
-    //    // Update time to CSV file
-    //    encoder.SetThirdTaskTime(timer.GetTime());
-    //}
 
     public bool TaskIsComplete() {
         return selectedNodes.Count == goalNodes.Count;
