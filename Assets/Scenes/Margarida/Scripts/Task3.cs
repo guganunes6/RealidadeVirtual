@@ -49,6 +49,8 @@ public class Task3 : Task {
         base.Start();
 
         mainSphere = spheres.transform.GetChild(19).gameObject;
+        mainSphere.AddComponent<NodeFeedback>();
+
         mainSphere.GetComponent<Renderer>().material.color = Color.red;
         
         goalGenre = mainSphere.GetComponent<Node>().movie.getGenres()[0]; // Only counts the first genre

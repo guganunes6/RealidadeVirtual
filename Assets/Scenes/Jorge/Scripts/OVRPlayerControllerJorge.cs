@@ -147,12 +147,15 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                     outline.OutlineColor = orange;
                     outline.OutlineWidth = 30;
 
+                    /*
                     if (objHit.GetComponent<Light>() != null)
                     {
                         Destroy(objHit.GetComponent<Light>());
                         objHit.GetComponent<Renderer>().material.color = Color.white;
                         Debug.Log("Time until select random node: " + Time.time);
                     }
+                    */
+                    Task.currentTask.StopTask(objHit);
 
                     selectedNode = objHit;
 
@@ -229,8 +232,6 @@ public class OVRPlayerControllerJorge : MonoBehaviour
         
         if (selectedNode != null)
         {
-            Debug.Log(this.transform.position);
-            Debug.Log(selectedNode.transform.position);
             canvasWS.transform.position = (this.transform.position + selectedNode.transform.position) / 2;
             canvasWS.transform.LookAt(this.transform);
         }
