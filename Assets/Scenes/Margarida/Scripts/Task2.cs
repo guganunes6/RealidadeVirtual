@@ -44,7 +44,7 @@ public class Task2 : Task {
 
     public override void StopTask(GameObject objHit)
     {
-        if (objHit == goalSphere)
+        if (objHit == goalSphere) // TODO - Let user select whatever node that he wants
         {
             // Stop Task
             mainSphere.GetComponent<Renderer>().material.color = Color.white;

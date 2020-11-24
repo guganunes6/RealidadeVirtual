@@ -226,9 +226,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectedNodeForce: 1
-  minConnectedDistance: 13
-  disconnectedNodeForce: 5
-  graphCanvasSize: 140
+  minConnectedDistance: 10
+  disconnectedNodeForce: 4
+  graphCanvasSize: 180
   cylinderPrefab: {fileID: 7960853812639014517, guid: 89bbcdcaaa8bcb54d92f5e9905649b3b,
     type: 3}
   spherePrefab: {fileID: 7841032801911390119, guid: b6abb9695055f8742a3d65fc47aa9931,

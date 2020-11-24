@@ -30,7 +30,7 @@ public class CSVEncoder {
     // Adds a line to CSV file - It may be a good idea to call this method after SetThirdTaskTime(millis)
     public void UpdateFile() {
         Debug.Log("Updating file");
-        File.AppendAllText(path + fileName, GetFirstTaskTime() + "," + GetSecondTaskTime() + "," + GetThirdTaskTime() + "," + GetTotalTasksTime() + "\n" );
+        File.AppendAllText(path + fileName + extension, GetFirstTaskTime() + "," + GetSecondTaskTime() + "," + GetThirdTaskTime() + "," + GetTotalTasksTime() + "\n" );
     }
 
     private bool FileExists(string fileName) {
