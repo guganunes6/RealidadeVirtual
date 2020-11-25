@@ -94,6 +94,6 @@ public class MovieUI : MonoBehaviour
 
     private void Update()
     {
-        animationUI();
+        //animationUI();
     }
 }
