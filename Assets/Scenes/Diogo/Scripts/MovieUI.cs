@@ -6,19 +6,14 @@ using TMPro;
 public class MovieUI : MonoBehaviour
 {
     public GameObject Text;
-    private bool isFadeIn = false;
-    private bool isFadeIn2 = false;
-    private bool isFadeOut = false;
-    private bool isFadeOut2 = false;
+
 
     private void Start()
     {
         this.gameObject.SetActive(false);
-        this.transform.localScale = new Vector3(0.0f, 0.0f, 1.0f);
     }
     public void ShowUI(DecodedNode movie)
     {
-        isFadeIn = true;
 
         //title - genres - voteAverage - releaseDate - budget - revenue
         this.gameObject.SetActive(true);
@@ -26,8 +21,7 @@ public class MovieUI : MonoBehaviour
     }
     public void HideUI()
     {
-        isFadeIn = false;
-        isFadeOut = true;
+        this.gameObject.SetActive(false);
     }
 
     private string getStringsFromList(List<string> strings)
@@ -45,55 +39,5 @@ public class MovieUI : MonoBehaviour
             }
         }
         return decodedString;
-    }
-
-    private void animationUI()
-    {
-        if (isFadeIn)
-        {
-            if (this.transform.localScale.x < 1.1f)
-                this.transform.localScale += new Vector3(0.05f, 0.05f, 0.0f);
-            else
-            {
-                isFadeIn = false;
-                isFadeIn2 = true;
-            }
-        }
-
-        if (isFadeIn2)
-        {
-            if (this.transform.localScale.x > 1.0f)
-                this.transform.localScale -= new Vector3(0.005f, 0.005f, 0.0f);
-            else
-                isFadeIn2 = false;
-        }
-
-        if (isFadeOut)
-        {
-            if (this.transform.localScale.x < 1.1f)
-                this.transform.localScale += new Vector3(0.005f, 0.005f, 0.0f);
-            else
-            {
-                isFadeOut = false;
-                isFadeOut2 = true;
-            }
-
-        }
-
-        if (isFadeOut2)
-        {
-            if (this.transform.localScale.x > 0.0f)
-                this.transform.localScale -= new Vector3(0.05f, 0.05f, 0.0f);
-            else
-            {
-                isFadeOut2 = false;
-                this.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    private void Update()
-    {
-        //animationUI();
     }
 }
