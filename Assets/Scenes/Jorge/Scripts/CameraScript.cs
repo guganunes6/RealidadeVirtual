@@ -57,12 +57,22 @@ public class CameraScript : MonoBehaviour
             {
                 zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeedWASD;
             }
-            transform.Translate(xValue, 0, zValue);
 
+            float yValue = 0;
+            if (Input.GetKey(KeyCode.Q))
+            {
+                yValue = Time.deltaTime * moveSpeedWASD;
+            }
+            else if (Input.GetKey(KeyCode.E))
+            {
+                yValue = -(Time.deltaTime * moveSpeedWASD);
+            }
+
+            transform.Translate(xValue, yValue, zValue);
             player.transform.position = transform.position;
 
             ////////// CAMERA ROTATION
-            
+
             currentRotation.x += Input.GetAxis("Mouse X") * sensitivity;
             currentRotation.y -= Input.GetAxis("Mouse Y") * sensitivity;
             currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
