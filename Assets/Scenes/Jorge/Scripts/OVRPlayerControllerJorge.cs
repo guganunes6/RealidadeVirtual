@@ -61,6 +61,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
             Vector2 secondaryAxis = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
 
             float xValue = primaryAxis.x * Time.deltaTime * moveSpeedOVRController;
+            float yValue = 0f;
             float zValue;
 
             if (secondaryAxis == Vector2.zero)
@@ -72,8 +73,16 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                 zValue = secondaryAxis.y * Time.deltaTime * moveSpeedTeleportOVRController;
             }
 
+            if (OVRInput.Get(OVRInput.Button.Four)) {
+                yValue = Time.deltaTime * moveSpeedOVRController;
+            }
+            else if (OVRInput.Get(OVRInput.Button.Three)) {
+                yValue = - Time.deltaTime * moveSpeedOVRController;
+            }
+
             transform.position += eye.transform.forward * zValue;
             transform.position += eye.transform.right * xValue;
+            transform.position += eye.transform.up * yValue;
 
             player.transform.position = transform.position;
         }
