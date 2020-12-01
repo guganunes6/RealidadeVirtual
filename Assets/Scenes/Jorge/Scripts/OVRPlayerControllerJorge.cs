@@ -20,6 +20,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
     public float sensitivity = 10f;
 
+    public float teleportMultiplier;
+
     public static GameObject objHit = null;
 
     public static bool playerStop = false;
@@ -41,6 +43,11 @@ public class OVRPlayerControllerJorge : MonoBehaviour
     private GameObject selectedNode;
 
     public Canvas canvasWS;
+
+    private bool twoHandedFlying;
+    private Vector3 handsStart;
+    private Vector3 handsEnd;
+    private Vector3 twoHandedFlyingDirection;
 
     private void Start()
     {
@@ -83,6 +90,38 @@ public class OVRPlayerControllerJorge : MonoBehaviour
             transform.position += eye.transform.forward * zValue;
             transform.position += eye.transform.right * xValue;
             transform.position += eye.transform.up * yValue;
+
+            if (OVRInput.GetDown(OVRInput.Button.Two) & !twoHandedFlying)
+            {
+                handsStart = (leftController.transform.position + rightController.transform.position) / 2;
+                twoHandedFlying = true;
+            }
+            else if (OVRInput.GetDown(OVRInput.Button.Two) & twoHandedFlying)
+            {
+                handsEnd = (leftController.transform.position + rightController.transform.position) / 2;
+                twoHandedFlyingDirection = handsEnd - handsStart;
+                if ((Mathf.Abs(twoHandedFlyingDirection.x) >= Mathf.Abs(twoHandedFlyingDirection.y)) & (Mathf.Abs(twoHandedFlyingDirection.x) > Mathf.Abs(twoHandedFlyingDirection.z)))
+                {
+                    transform.position += twoHandedFlyingDirection * Mathf.Abs((handsEnd - handsStart).x) * teleportMultiplier * Time.deltaTime;
+                }
+                else if ((Mathf.Abs(twoHandedFlyingDirection.y) > Mathf.Abs(twoHandedFlyingDirection.x)) & (Mathf.Abs(twoHandedFlyingDirection.y) >= Mathf.Abs(twoHandedFlyingDirection.z)))
+                {
+                    transform.position += twoHandedFlyingDirection * Mathf.Abs((handsEnd - handsStart).y) * teleportMultiplier * Time.deltaTime;
+                } 
+                else
+                {
+                    transform.position += twoHandedFlyingDirection * Mathf.Abs((handsEnd - handsStart).z) * teleportMultiplier * Time.deltaTime;
+                }
+
+                Debug.Log("handsStart: " + handsStart);
+                Debug.Log("handsEnd: " + handsEnd);
+                Debug.Log("handsEnd - handsStart: " + (handsEnd - handsStart));
+                Debug.Log("handstwoHandedFlyingDirection: " + twoHandedFlyingDirection);
+
+                twoHandedFlying = false;
+                handsStart = Vector3.zero;
+                handsEnd = Vector3.zero;
+            }
 
             player.transform.position = transform.position;
         }
