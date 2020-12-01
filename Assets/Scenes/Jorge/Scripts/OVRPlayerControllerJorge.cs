@@ -241,10 +241,10 @@ public class OVRPlayerControllerJorge : MonoBehaviour
         
         if (selectedNode != null)
         {
-            canvasWS.transform.position = (this.transform.position + selectedNode.transform.position) / 2;
-            canvasWS.transform.LookAt(this.transform);
+            canvasWS.transform.position = (eye.transform.position + selectedNode.transform.position) / 2;
+            canvasWS.transform.LookAt(eye.transform);
 
-            float distanceToSelectedNode = Vector3.Distance(this.transform.position, selectedNode.transform.position);
+            float distanceToSelectedNode = Vector3.Distance(eye.transform.position, selectedNode.transform.position);
             float newScale = distanceToSelectedNode / 2000;
             canvasWS.transform.localScale = new Vector3(-newScale, newScale, newScale);
         }
