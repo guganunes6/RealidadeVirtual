@@ -58,9 +58,10 @@ public class Task1 : Task {
             TurnOffNode(trial);
             StopTask();
             PrintTimes();
-
+            
             // Start next Task
-            StartNextTask();
+            toContinue = true;
+            Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " seconds. Press ENTER to continue");
         } else {
             wrongNodes++;
         }

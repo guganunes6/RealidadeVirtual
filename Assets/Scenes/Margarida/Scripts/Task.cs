@@ -8,7 +8,7 @@ public abstract class Task : MonoBehaviour {
     public  Timer timer;
     public CSVEncoder encoder;
     public static Task currentTask;
-    private bool toContinue;
+    public bool toContinue;
     public int wrongNodes;
 
     public Task(CSVEncoder encoder) {
@@ -28,8 +28,6 @@ public abstract class Task : MonoBehaviour {
 
     public virtual void StopTimer() {
         timer.Stop();
-        toContinue = true;
-        Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " seconds. Press ENTER to continue");
     }
 
     public bool ToContinue() {

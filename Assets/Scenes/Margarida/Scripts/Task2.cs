@@ -84,7 +84,8 @@ public class Task2 : Task {
             PrintTimes();
 
             // Start next Task
-            StartNextTask();
+            toContinue = true;
+            Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " seconds. Press ENTER to continue");
         } else {
             wrongNodes++;
         }
