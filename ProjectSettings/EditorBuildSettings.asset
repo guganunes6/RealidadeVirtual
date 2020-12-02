@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Jorge/Scenes/JorgeSceneVR.unity
     guid: d69217806352a20459c3d4df5f0edbf2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Jorge/Scenes/JorgeSceneVRFull.unity
     guid: 561fe93bc893c2f4aa9ff33ce7f1a7bd
+  - enabled: 1
+    path: Assets/Scenes/Jorge - Copy/Scenes/JorgeScene2.unity
+    guid: fa9c7fe94eb800f45bc0e68482070b35
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 35e356d9575f8924caa8afa08e81d8e6,
       type: 2}

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraScript : MonoBehaviour
+public class MixVR_KBM : MonoBehaviour
 {
     public GameObject graphManager;
     public GameObject player;
+    public GameObject eye;
+    public Canvas canvasWS;
 
     public float hitDistance = 2f;
 
@@ -68,18 +70,11 @@ public class CameraScript : MonoBehaviour
                 yValue = -(Time.deltaTime * moveSpeedWASD);
             }
 
-            transform.Translate(xValue, yValue, zValue);
+            transform.position += eye.transform.forward * zValue;
+            transform.position += eye.transform.right * xValue;
+            transform.position += eye.transform.up * yValue;
+
             player.transform.position = transform.position;
-
-            ////////// CAMERA ROTATION
-
-            currentRotation.x += Input.GetAxis("Mouse X") * sensitivity;
-            currentRotation.y -= Input.GetAxis("Mouse Y") * sensitivity;
-            currentRotation.x = Mathf.Repeat(currentRotation.x, 360);
-            currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
-
-            Camera.main.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0);
-            
 
         }
 
@@ -87,7 +82,7 @@ public class CameraScript : MonoBehaviour
 
         RaycastHit hit;
         var cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, Camera.main.nearClipPlane));
-        if (Physics.Raycast(cameraCenter, transform.forward, out hit, hitDistance))
+        if (Physics.Raycast(cameraCenter, eye.transform.forward, out hit, hitDistance))
         {
             objHit = hit.transform.gameObject;
             if (objHit.tag == "Sphere")
@@ -114,7 +109,7 @@ public class CameraScript : MonoBehaviour
                     //    //objHit.GetComponent<Renderer>().material.color = Color.white;
                     //    //Debug.Log("Time until select random node: " + Time.time);
                     //}
-                    Task.currentTask.SelectNode(objHit);
+                    Task.currentTask.StopTask(objHit);
 
                     audio.PlayOneShot(selectSound);
 
@@ -166,6 +161,18 @@ public class CameraScript : MonoBehaviour
                     //transform.RotateAround(objHit.transform.position, Vector3.right, zValueRotate);
                     player.transform.position = transform.position;
                 }
+
+                ////////// CANVAS POSITION
+
+                if (playerStop)
+                {
+                    canvasWS.transform.position = (eye.transform.position + objHit.transform.position) / 2;
+                    canvasWS.transform.LookAt(eye.transform);
+
+                    float distanceToSelectedNode = Vector3.Distance(eye.transform.position, objHit.transform.position);
+                    float newScale = distanceToSelectedNode / 2000;
+                    canvasWS.transform.localScale = new Vector3(-newScale, newScale, newScale);
+                }
             }
         }
         else if (objHit != null)
@@ -179,7 +186,6 @@ public class CameraScript : MonoBehaviour
             }
             colorListIterator = -1;
         }
-        
-    }
 
+    }
 }

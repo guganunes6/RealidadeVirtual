@@ -347,27 +347,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 178036245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbf3a801679c9194595a6a4c39171bbc, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ab85f013a2be7047ae541c30e6d3657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   graphManager: {fileID: 931872511}
   player: {fileID: 1854208846}
-  eye: {fileID: 841831170}
-  leftController: {fileID: 854368297}
-  rightController: {fileID: 1281112097}
-  leftRaycast: {fileID: 897354191}
-  rightRaycast: {fileID: 664481004}
-  hitDistance: 4
-  moveSpeedOVRController: 3
-  moveSpeedTeleportOVRController: 30
+  eye: {fileID: 1727140709}
+  canvasWS: {fileID: 295178837}
+  hitDistance: 2
+  moveSpeedWASD: 10
+  moveSpeedMouseWheel: 10
   rotateAroundSpeed: 10
   sensitivity: 10
-  teleportMultiplier: 400
+  maxYAngle: 89.5
   selectSound: {fileID: 8300000, guid: 7e29291ca8cd0ed42b002a639e121e17, type: 3}
   markSound: {fileID: 8300000, guid: 6b53f982b352ed644b028d6e20eea314, type: 3}
-  leftControllerRaycastOn: 0
-  rightControllerRaycastOn: 0
-  canvasWS: {fileID: 1513598271}
 --- !u!1 &217234584
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,6 +392,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!223 &295178837 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 4010936818493890093, guid: 52245827d03f92145a4d6b34982715ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 969696629}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &356529169
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -621,12 +621,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d7e23fd336a474b8bd3611f9687ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &841831170 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7001422987642901071, guid: efc9555b32f56b346af6e859308c3525,
-    type: 3}
-  m_PrefabInstance: {fileID: 1727140707}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &854368297 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7002156820279563883, guid: efc9555b32f56b346af6e859308c3525,
@@ -1251,12 +1245,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52245827d03f92145a4d6b34982715ab, type: 3}
---- !u!223 &1513598271 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 4010936818493890093, guid: 52245827d03f92145a4d6b34982715ab,
-    type: 3}
-  m_PrefabInstance: {fileID: 969696629}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1727140707
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1339,11 +1327,27 @@ PrefabInstance:
       propertyPath: m_TagString
       value: MainCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 7001422987642935577, guid: efc9555b32f56b346af6e859308c3525,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7001422987642962145, guid: efc9555b32f56b346af6e859308c3525,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efc9555b32f56b346af6e859308c3525, type: 3}
 --- !u!4 &1727140708 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7001422987642670703, guid: efc9555b32f56b346af6e859308c3525,
+    type: 3}
+  m_PrefabInstance: {fileID: 1727140707}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1727140709 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7001422987642901071, guid: efc9555b32f56b346af6e859308c3525,
     type: 3}
   m_PrefabInstance: {fileID: 1727140707}
   m_PrefabAsset: {fileID: 0}
