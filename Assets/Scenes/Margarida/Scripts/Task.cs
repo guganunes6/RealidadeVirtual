@@ -20,6 +20,10 @@ public abstract class Task : MonoBehaviour {
         timer.Start();
     }
 
+    public virtual void StartAgain() {
+        timer.StartAgain();
+    }
+
     public virtual void StopTimer()
     {
         timer.Stop();
@@ -31,7 +35,17 @@ public abstract class Task : MonoBehaviour {
         return toContinue;
     }
 
-    public abstract void StopTask(GameObject objHit);
+    public void AddTime(double time) {
+        encoder.AddTime(time);
+    }
+
+    public void PrintTimes() {
+        encoder.PrintTimes();
+    }
+
+    public abstract void StopTask();
+
+    public abstract void SelectNode(GameObject objHit);
 
     public abstract void StartNextTask();
 

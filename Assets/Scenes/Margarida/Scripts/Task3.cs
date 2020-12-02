@@ -21,6 +21,8 @@ public class Task3 : Task {
 
     public Task3(CSVEncoder encoder, GameObject spheres) : base(encoder) {
         this.spheres = spheres;
+        this.goalNodes = new List<GameObject>();
+        this.selectedNodes = new List<GameObject>();
     }
 
     private List<GameObject> ComputeGoalNodes(GameObject spheres, string goalGenre) {
@@ -36,19 +38,6 @@ public class Task3 : Task {
         return goalSpheres;
     }
 
-    public void SelectNode(GameObject hit) {
-        if (hit != null) {
-            string hitTitle = hit.GetComponent<Node>().movie.getOriginalTitle();
-            if (!selectedNodes.Where(n => n.GetComponent<Node>().movie.getOriginalTitle() == hitTitle).Any()) {
-                if (goalNodes.Where(n => n.GetComponent<Node>().movie.getOriginalTitle() == hitTitle).Any()) {
-                    selectedNodes.Add(hit);
-                    hit.GetComponent<Renderer>().material.color = Color.white;
-                    Debug.Log((goalNodes.Count - selectedNodes.Count) + " nodes remaining.");
-                }
-            }
-        }
-    }
-
     public override void Start() {
         base.Start();
 
@@ -59,6 +48,7 @@ public class Task3 : Task {
         
         goalGenre = mainSphere.GetComponent<Node>().movie.getGenres()[0]; // Only counts the first genre
         goalNodes = ComputeGoalNodes(spheres, goalGenre);
+        Debug.Log(goalNodes.Count() + " nodes remaining");
         
         selectedNodes = new List<GameObject>();
     }
@@ -66,24 +56,35 @@ public class Task3 : Task {
     public bool TaskIsComplete() {
         return selectedNodes.Count == goalNodes.Count;
     }
-    public override void StopTask(GameObject objsHit) {
-        SelectNode(objsHit);
-        if (TaskIsComplete()) {
-            // Stop Task
-            mainSphere.GetComponent<Renderer>().material.color = Color.white;
+    public override void StopTask() {
+        // Stop timer
+        base.StopTimer();
 
-            // Stop timer
-            base.StopTimer();
-            Debug.Log("Test complete. Thank you.");
+        // Update time to CSV file
+        AddTime(timer.GetTime());
+        encoder.UpdateFile();
+    }
 
-            // Update time to CSV file
-            encoder.SetThirdTaskTime(timer.GetTime());
-            encoder.UpdateFile();
+    private void TurnOffNode(GameObject node) {
+        Destroy(node.GetComponent<NodeFeedback>());
+        Destroy(node.GetComponent<Light>());
+        node.GetComponent<Renderer>().material.color = Color.white;
+    }
+
+    public override void SelectNode(GameObject objHit) {
+        if (selectedNodes.Count() < goalNodes.Count() & goalNodes.Contains(objHit) & !selectedNodes.Contains(objHit)) {
+            TurnOffNode(objHit);
+            selectedNodes.Add(objHit);
+            Debug.Log((goalNodes.Count() - selectedNodes.Count()) + " nodes remaining");
+            if (selectedNodes.Count() == goalNodes.Count()) {
+                StopTask();
+                PrintTimes();
+            }
         }
     }
 
     public override void StartNextTask() {
-        // Finish
+        // Do nothing - Finish
     }
 
     public override string GetTaskId() {

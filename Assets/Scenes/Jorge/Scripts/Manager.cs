@@ -11,10 +11,11 @@ public class Manager : MonoBehaviour
     {
         spheres = GameObject.Find("Spheres");
         int numberSpheres = spheres.transform.childCount;
+        Debug.Log(numberSpheres);
         //int random = Random.Range(0, numberSpheres);
         //GameObject firstSelectedNode = spheres.transform.GetChild(random).gameObject;
         //NodeFeedback firstTest = firstSelectedNode.AddComponent<NodeFeedback>();
-        CSVEncoder encoder = new CSVEncoder("tasks_time");
+        CSVEncoder encoder = new CSVEncoder("tasks_time_kbm");
         Task task = new Task1(encoder, spheres);
         Task.currentTask = task; 
         task.Start();
@@ -27,10 +28,10 @@ public class Manager : MonoBehaviour
             Task.currentTask.StartNextTask();
         } else if(Task.currentTask.GetTaskId() == "2" & Input.GetKeyDown(KeyCode.Return)) {
             // Might not have been the right node selected 
-            Task.currentTask.StopTask(null);
+            Task.currentTask.StopTask();
         } else if(Task.currentTask.GetTaskId() == "3" & Input.GetKeyDown(KeyCode.Return)) {
             // Might not have been the right node selected 
-            Task.currentTask.StopTask(null);
+            Task.currentTask.StopTask();
         }
     }
 }

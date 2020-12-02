@@ -155,7 +155,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                         Debug.Log("Time until select random node: " + Time.time);
                     }
                     */
-                    Task.currentTask.StopTask(objHit);
+                    Task.currentTask.SelectNode(objHit);
 
                     selectedNode = objHit;
 
