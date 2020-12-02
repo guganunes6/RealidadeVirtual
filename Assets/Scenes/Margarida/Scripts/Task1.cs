@@ -61,6 +61,8 @@ public class Task1 : Task {
 
             // Start next Task
             StartNextTask();
+        } else {
+            wrongNodes++;
         }
     }
 

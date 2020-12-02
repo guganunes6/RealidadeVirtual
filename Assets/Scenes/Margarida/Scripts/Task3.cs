@@ -56,6 +56,7 @@ public class Task3 : Task {
     public bool TaskIsComplete() {
         return selectedNodes.Count == goalNodes.Count;
     }
+
     public override void StopTask() {
         // Stop timer
         base.StopTimer();
@@ -80,6 +81,9 @@ public class Task3 : Task {
                 StopTask();
                 PrintTimes();
             }
+        } else if (!goalNodes.Contains(objHit)) {
+            wrongNodes++;
+            Debug.Log("wrong nodes " + wrongNodes);
         }
     }
 

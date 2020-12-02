@@ -9,11 +9,13 @@ public abstract class Task : MonoBehaviour {
     public CSVEncoder encoder;
     public static Task currentTask;
     private bool toContinue;
+    public int wrongNodes;
 
     public Task(CSVEncoder encoder) {
         timer = new Timer();
         toContinue = false;
         this.encoder = encoder;
+        wrongNodes = 0;
     }
 
     public virtual void Start() {
@@ -24,8 +26,7 @@ public abstract class Task : MonoBehaviour {
         timer.StartAgain();
     }
 
-    public virtual void StopTimer()
-    {
+    public virtual void StopTimer() {
         timer.Stop();
         toContinue = true;
         Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " seconds. Press ENTER to continue");
@@ -36,7 +37,8 @@ public abstract class Task : MonoBehaviour {
     }
 
     public void AddTime(double time) {
-        encoder.AddTime(time);
+        encoder.AddTime(time, wrongNodes);
+        wrongNodes = 0;
     }
 
     public void PrintTimes() {

@@ -109,7 +109,7 @@ public class MixVR_KBM : MonoBehaviour
                     //    //objHit.GetComponent<Renderer>().material.color = Color.white;
                     //    //Debug.Log("Time until select random node: " + Time.time);
                     //}
-                    Task.currentTask.StopTask(objHit);
+                    Task.currentTask.SelectNode(objHit);
 
                     audio.PlayOneShot(selectSound);
 
