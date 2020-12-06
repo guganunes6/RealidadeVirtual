@@ -8,30 +8,44 @@ public abstract class Task : MonoBehaviour {
     public  Timer timer;
     public CSVEncoder encoder;
     public static Task currentTask;
-    private bool toContinue;
+    public bool toContinue;
+    public int wrongNodes;
 
     public Task(CSVEncoder encoder) {
         timer = new Timer();
         toContinue = false;
         this.encoder = encoder;
+        wrongNodes = 0;
     }
 
     public virtual void Start() {
         timer.Start();
     }
 
-    public virtual void StopTimer()
-    {
+    public virtual void StartAgain() {
+        timer.StartAgain();
+    }
+
+    public virtual void StopTimer() {
         timer.Stop();
-        toContinue = true;
-        Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " seconds. Press ENTER to continue");
     }
 
     public bool ToContinue() {
         return toContinue;
     }
 
-    public abstract void StopTask(GameObject objHit);
+    public void AddTime(double time) {
+        encoder.AddTime(time, wrongNodes);
+        wrongNodes = 0;
+    }
+
+    public void PrintTimes() {
+        encoder.PrintTimes();
+    }
+
+    public abstract void StopTask();
+
+    public abstract void SelectNode(GameObject objHit);
 
     public abstract void StartNextTask();
 

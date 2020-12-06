@@ -20,6 +20,8 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
     public float sensitivity = 10f;
 
+    public float teleportMultiplier;
+
     public static GameObject objHit = null;
 
     public static bool playerStop = false;
@@ -42,6 +44,11 @@ public class OVRPlayerControllerJorge : MonoBehaviour
 
     public Canvas canvasWS;
 
+    private bool twoHandedFlying;
+    private Vector3 handsStart;
+    private Vector3 handsEnd;
+    private Vector3 twoHandedFlyingDirection;
+
     private void Start()
     {
         colorsList.Add(Color.green);
@@ -61,6 +68,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
             Vector2 secondaryAxis = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
 
             float xValue = primaryAxis.x * Time.deltaTime * moveSpeedOVRController;
+            float yValue = 0f;
             float zValue;
 
             if (secondaryAxis == Vector2.zero)
@@ -72,8 +80,48 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                 zValue = secondaryAxis.y * Time.deltaTime * moveSpeedTeleportOVRController;
             }
 
+            if (OVRInput.Get(OVRInput.Button.Four)) {
+                yValue = Time.deltaTime * moveSpeedOVRController;
+            }
+            else if (OVRInput.Get(OVRInput.Button.Three)) {
+                yValue = - Time.deltaTime * moveSpeedOVRController;
+            }
+
             transform.position += eye.transform.forward * zValue;
             transform.position += eye.transform.right * xValue;
+            transform.position += eye.transform.up * yValue;
+
+            if (OVRInput.GetDown(OVRInput.Button.Two) & !twoHandedFlying)
+            {
+                handsStart = (leftController.transform.position + rightController.transform.position) / 2;
+                twoHandedFlying = true;
+            }
+            else if (OVRInput.GetDown(OVRInput.Button.Two) & twoHandedFlying)
+            {
+                handsEnd = (leftController.transform.position + rightController.transform.position) / 2;
+                twoHandedFlyingDirection = handsEnd - handsStart;
+                if ((Mathf.Abs(twoHandedFlyingDirection.x) >= Mathf.Abs(twoHandedFlyingDirection.y)) & (Mathf.Abs(twoHandedFlyingDirection.x) > Mathf.Abs(twoHandedFlyingDirection.z)))
+                {
+                    transform.position += twoHandedFlyingDirection * Mathf.Abs((handsEnd - handsStart).x) * teleportMultiplier * Time.deltaTime;
+                }
+                else if ((Mathf.Abs(twoHandedFlyingDirection.y) > Mathf.Abs(twoHandedFlyingDirection.x)) & (Mathf.Abs(twoHandedFlyingDirection.y) >= Mathf.Abs(twoHandedFlyingDirection.z)))
+                {
+                    transform.position += twoHandedFlyingDirection * Mathf.Abs((handsEnd - handsStart).y) * teleportMultiplier * Time.deltaTime;
+                } 
+                else
+                {
+                    transform.position += twoHandedFlyingDirection * Mathf.Abs((handsEnd - handsStart).z) * teleportMultiplier * Time.deltaTime;
+                }
+
+                Debug.Log("handsStart: " + handsStart);
+                Debug.Log("handsEnd: " + handsEnd);
+                Debug.Log("handsEnd - handsStart: " + (handsEnd - handsStart));
+                Debug.Log("handstwoHandedFlyingDirection: " + twoHandedFlyingDirection);
+
+                twoHandedFlying = false;
+                handsStart = Vector3.zero;
+                handsEnd = Vector3.zero;
+            }
 
             player.transform.position = transform.position;
         }
@@ -155,7 +203,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                         Debug.Log("Time until select random node: " + Time.time);
                     }
                     */
-                    Task.currentTask.StopTask(objHit);
+                    Task.currentTask.SelectNode(objHit);
 
                     selectedNode = objHit;
 
@@ -232,8 +280,12 @@ public class OVRPlayerControllerJorge : MonoBehaviour
         
         if (selectedNode != null)
         {
-            canvasWS.transform.position = (this.transform.position + selectedNode.transform.position) / 2;
-            canvasWS.transform.LookAt(this.transform);
+            canvasWS.transform.position = (eye.transform.position + selectedNode.transform.position) / 2;
+            canvasWS.transform.LookAt(eye.transform);
+
+            float distanceToSelectedNode = Vector3.Distance(eye.transform.position, selectedNode.transform.position);
+            float newScale = distanceToSelectedNode / 2000;
+            canvasWS.transform.localScale = new Vector3(-newScale, newScale, newScale);
         }
     }
 }

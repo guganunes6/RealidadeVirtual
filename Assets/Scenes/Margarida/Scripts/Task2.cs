@@ -9,38 +9,94 @@ public class Task2 : Task {
 
     private string id = "2"; 
 
+    private int nTrials = 5;
+    private int trial = 0;
+    private int[] nodes = {3, 7, 4, 13, 8};
+
     private GameObject spheres;
-
-    private GameObject mainSphere;
-
     private GameObject goalSphere;
 
-    public Task2(CSVEncoder encoder, GameObject spheres, GameObject mainSphere) : base(encoder) {
+    public Task2(CSVEncoder encoder, GameObject spheres) : base(encoder) {
         this.spheres = spheres;
-        this.mainSphere = mainSphere;
     }
 
     public override void Start() {
         base.Start();
-        Node mainNode = mainSphere.GetComponent<Node>();
+
+        // Iluminate main node
+        IluminateNode(trial);
+
+        // Get neighbour with highest classification
+        DefineHighestClassificationNeigh(trial);
+    }
+
+    public void Start(int node) {
+        base.StartAgain();
+
+        // Iluminate main node
+        IluminateNode(node);
+
+        // Get neighbour with highest classification
+        DefineHighestClassificationNeigh(node);
+    }
+
+    private void DefineHighestClassificationNeigh(int nodeIndex) {
+        GameObject sphere = spheres.transform.GetChild(nodes[nodeIndex]).gameObject;
+        Node mainNode = sphere.GetComponent<Node>();
         List<Node> neighbours = mainNode.neighbours.Where(n => n.Item2 > 0).Select(n => n.Item1).ToList();
         Node highestClassifiedNeighbour = neighbours.OrderByDescending(n => n.movie.getVoteAverage()).First();
         goalSphere = highestClassifiedNeighbour.gameObject;
+
+        goalSphere.GetComponent<Renderer>().material.color = Color.blue;
     }
 
-    public override void StopTask(GameObject objHit)
-    {
-        if (objHit == goalSphere) // TODO - Let user select whatever node that he wants
-        {
-            // Stop Task
-            mainSphere.GetComponent<Renderer>().material.color = Color.white;
+    private void IluminateNode(int nodeIndex) {
+        Debug.Log("Iluminate Node " + nodes[nodeIndex]);
+        GameObject node = spheres.transform.GetChild(nodes[nodeIndex]).gameObject;
 
-            // Stop timer
-            base.StopTimer();
+        node.GetComponent<Renderer>().material.color = Color.red;
+        node.AddComponent<NodeFeedback>();
+    }
 
-            // Update time to CSV file
-            encoder.SetSecondTaskTime(timer.GetTime());
+    private void TurnOffNode(int nodeIndex) {
+        GameObject node = spheres.transform.GetChild(nodes[nodeIndex]).gameObject;
+
+        Destroy(node.GetComponent<NodeFeedback>());
+        Destroy(node.GetComponent<Light>());
+        node.GetComponent<Renderer>().material.color = Color.white;
+        goalSphere.GetComponent<Renderer>().material.color = Color.white;
+    }
+
+    public override void SelectNode(GameObject objHit) {
+        Debug.Log("Select Node " + trial);
+        if (objHit == goalSphere & trial < nTrials-1) {
+            // Finish trial
+            Debug.Log("Right node selected");
+            TurnOffNode(trial);
+            StopTask();
+
+            // Start next trial
+            Start(++trial);
+        } else if (trial == nTrials-1) {
+            // Finish last trial
+            TurnOffNode(trial);
+            StopTask();
+            PrintTimes();
+
+            // Start next Task
+            toContinue = true;
+            Debug.Log("Task " + GetTaskId() + " took " + timer.GetTime() + " seconds. Press ENTER to continue");
+        } else {
+            wrongNodes++;
         }
+    }
+
+    public override void StopTask() {
+        // Stop timer
+        base.StopTimer();
+
+        // Update time to CSV file
+        AddTime(timer.GetTime());
     }
 
     public override void StartNextTask() {
