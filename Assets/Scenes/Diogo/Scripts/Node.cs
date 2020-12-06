@@ -35,6 +35,11 @@ public class Node : MonoBehaviour
         neighbours.Add(neighbour);
     }
 
+    public int GetAmountOfGenres()
+    {
+        return movie.getGenres().Count;
+    }
+
     public void LogGenres()
     {
         foreach (var item in movie.getGenres())

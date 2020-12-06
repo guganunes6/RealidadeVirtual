@@ -43,7 +43,8 @@ public class Task2 : Task {
     private void DefineHighestClassificationNeigh(int nodeIndex) {
         GameObject sphere = spheres.transform.GetChild(nodes[nodeIndex]).gameObject;
         Node mainNode = sphere.GetComponent<Node>();
-        List<Node> neighbours = mainNode.neighbours.Where(n => n.Item2 > 0).Select(n => n.Item1).ToList();
+        //List<Node> neighbours = mainNode.neighbours.Where(n => n.Item2 > 0).Select(n => n.Item1).ToList();
+        List<Node> neighbours = mainNode.neighbours.Where(n => n.Item2 == mainNode.GetAmountOfGenres()).Select(n => n.Item1).ToList();
         Node highestClassifiedNeighbour = neighbours.OrderByDescending(n => n.movie.getVoteAverage()).First();
         goalSphere = highestClassifiedNeighbour.gameObject;
 

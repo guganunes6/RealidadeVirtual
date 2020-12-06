@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GraphManager : MonoBehaviour
 {
+    public int algorithmIterations;
     public float connectedNodeForce;
     public float minConnectedDistance;
     public float disconnectedNodeForce;
@@ -60,6 +61,7 @@ public class GraphManager : MonoBehaviour
         edges.Add(new Edge(node1, node2, cyl.transform.position));
         cylinders.Add(cyl);
         cyl.transform.parent = cylindersParent.transform;
+        cyl.SetActive(false);
     }
 
     private void InstanciateCylinders()
@@ -70,9 +72,9 @@ public class GraphManager : MonoBehaviour
             nodesAdded.Add(node.id);
             foreach (var neighbour in node.neighbours)
             {
-                if (!nodesAdded.Contains(neighbour.Item1.id) && neighbour.Item2 > 0)
+                if (!nodesAdded.Contains(neighbour.Item1.id) && neighbour.Item2 == node.GetAmountOfGenres())
                 {
-                    CreateCylinder(node, neighbour.Item1);
+                     CreateCylinder(node, neighbour.Item1);
                 }
             }
         }
@@ -109,7 +111,7 @@ public class GraphManager : MonoBehaviour
     
     public void GenerateGraph()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < algorithmIterations; i++)
         {
             foreach (var node in nodes.Values)
             {
@@ -119,7 +121,7 @@ public class GraphManager : MonoBehaviour
                     var distance = positionDiference.magnitude;
 
                     float force;
-                    if (otherNode.Item2 > 0)
+                    if (otherNode.Item2 == node.GetAmountOfGenres())
                     {
                         force = connectedNodeForce * Mathf.Log(distance / minConnectedDistance);
                     }
@@ -128,7 +130,7 @@ public class GraphManager : MonoBehaviour
                         force = disconnectedNodeForce / Mathf.Pow(distance, 2);
                     }
 
-                    var velocity = force * positionDiference.normalized * 0.4f;
+                    var velocity = force * positionDiference.normalized * 0.01f;
                     otherNode.Item1.velocity = velocity;
                     otherNode.Item1.setPosition(new Vector3(otherNode.Item1.position.x + velocity.x, 0, otherNode.Item1.position.z + velocity.z));
                 }
@@ -205,7 +207,7 @@ public class GraphManager : MonoBehaviour
 
         foreach (var neighbour in nodeToOutline.neighbours)
         {
-            if (neighbour.Item2 > 0)
+            if (neighbour.Item2 == nodeToOutline.GetAmountOfGenres())
             {
                 // find cylinder by position
                 var diff = neighbour.Item1.position - nodeToOutline.position;
@@ -215,6 +217,7 @@ public class GraphManager : MonoBehaviour
                 {
                     if (cyl.transform.position == position)
                     {
+                        cyl.SetActive(true);
                         var outline = cyl.GetComponent<Outline>();
                         if (showOutline && outlineColor != Color.white)
                         {
@@ -228,6 +231,7 @@ public class GraphManager : MonoBehaviour
                         }
                         else
                         {
+                            cyl.SetActive(false);
                             outline.enabled = false;
                         }
                     }
