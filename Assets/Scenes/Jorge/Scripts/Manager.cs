@@ -54,7 +54,7 @@ public class Manager : MonoBehaviour
             {
                 encoder = new CSVEncoder("tasks_time_vr_kbm");
             }
-            Task task = new Task3(encoder, spheres);
+            Task task = new Task1(encoder, spheres);
             Task.currentTask = task; 
             task.Start();
             testing = true;
