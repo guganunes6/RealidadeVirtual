@@ -14,7 +14,7 @@ public class Task1 : Task {
     private GameObject spheres;
 
     public Task1() : base() {
-        Debug.Log("TASK1 CONST");
+
     }
 
     public Task1(CSVEncoder encoder, GameObject spheres) : base(encoder) {

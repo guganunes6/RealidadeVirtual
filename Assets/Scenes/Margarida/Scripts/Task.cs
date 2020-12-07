@@ -12,7 +12,7 @@ public abstract class Task : MonoBehaviour {
     public int wrongNodes;
 
     public Task() {
-        Debug.Log("TASK CONST");
+
     }
 
     public Task(CSVEncoder encoder) {

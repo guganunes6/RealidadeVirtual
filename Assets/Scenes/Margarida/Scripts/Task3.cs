@@ -49,7 +49,7 @@ public class Task3 : Task {
     public override void Start() {
         base.Start();
 
-        mainSphere = spheres.transform.GetChild(2).gameObject;
+        mainSphere = spheres.transform.GetChild(160).gameObject;
         mainSphere.AddComponent<NodeFeedback>();
 
         mainSphere.GetComponent<Renderer>().material.color = Color.red;

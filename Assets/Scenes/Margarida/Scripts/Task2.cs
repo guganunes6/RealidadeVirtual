@@ -11,7 +11,7 @@ public class Task2 : Task {
 
     private int nTrials = 5;
     private int trial = 0;
-    private int[] nodes = {3, 7, 4, 13, 8};
+    private int[] nodes = {3, 7, 4, 185, 101};
 
     private GameObject spheres;
     private GameObject goalSphere;
