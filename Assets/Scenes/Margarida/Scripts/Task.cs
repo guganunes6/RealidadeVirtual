@@ -11,6 +11,10 @@ public abstract class Task : MonoBehaviour {
     public bool toContinue;
     public int wrongNodes;
 
+    public Task() {
+        Debug.Log("TASK CONST");
+    }
+
     public Task(CSVEncoder encoder) {
         timer = new Timer();
         toContinue = false;

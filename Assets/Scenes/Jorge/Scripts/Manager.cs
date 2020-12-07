@@ -8,13 +8,21 @@ public class Manager : MonoBehaviour
 
     private GameObject spheres;
     private bool explore = true;
-    private bool testing = false;
+    public static bool testing = false;
 
     void OnEnable()
     {
         spheres = GameObject.Find("Spheres");
         int numberSpheres = spheres.transform.childCount;
         Debug.Log(numberSpheres);
+
+        Task1 task1 = new Task1();
+        Debug.Log("1 YOO PASSEI AQUI " + (task1 == null));
+        Task.currentTask = task1; 
+        Debug.Log("2 YOO PASSEI AQUI " + (Task.currentTask == null));
+
+        GameObject node = spheres.transform.GetChild(124).gameObject;
+        node.GetComponent<Renderer>().material.color = Color.green;
 
         Debug.Log("Press ENTER to start the tests");
     }
@@ -51,8 +59,10 @@ public class Manager : MonoBehaviour
             {
                 encoder = new CSVEncoder("tasks_time_vr_kbm");
             }
-            Task task = new Task2(encoder, spheres);
+            Task task = new Task1(encoder, spheres);
+            Debug.Log("3 YOO PASSEI AQUI " + (task == null));
             Task.currentTask = task; 
+            Debug.Log("4 YOO PASSEI AQUI " + (Task.currentTask == null));
             task.Start();
             testing = true;
         }

@@ -9,9 +9,13 @@ public class Task1 : Task {
     private int trial = 0;
     private int[] nodes = {3, 7, 4, 13, 8, 10, 19, 17, 6, 4, 5, 12, 15, 1, 9};
 
-    private string id = "1"; 
+    public string id; 
 
     private GameObject spheres;
+
+    public Task1() : base() {
+        Debug.Log("TASK1 CONST");
+    }
 
     public Task1(CSVEncoder encoder, GameObject spheres) : base(encoder) {
        this.spheres = spheres;
