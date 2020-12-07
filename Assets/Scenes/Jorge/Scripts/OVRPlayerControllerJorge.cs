@@ -203,7 +203,7 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                         Debug.Log("Time until select random node: " + Time.time);
                     }
                     */
-                    Task.currentTask.SelectNode(objHit);
+                    if (Task.currentTask != null) { Task.currentTask.SelectNode(objHit); }
 
                     selectedNode = objHit;
 

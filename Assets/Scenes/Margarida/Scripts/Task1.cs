@@ -53,7 +53,7 @@ public class Task1 : Task {
 
             // Start next trial
             Start(++trial);
-        } else if (trial == nTrials-1) {
+        } else if (objHit.GetComponent<Light>() != null & trial == nTrials-1) {
             // Finish last trial
             TurnOffNode(trial);
             StopTask();

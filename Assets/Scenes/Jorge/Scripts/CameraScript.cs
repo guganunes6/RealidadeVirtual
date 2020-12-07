@@ -114,7 +114,7 @@ public class CameraScript : MonoBehaviour
                     //    //objHit.GetComponent<Renderer>().material.color = Color.white;
                     //    //Debug.Log("Time until select random node: " + Time.time);
                     //}
-                    Task.currentTask.SelectNode(objHit);
+                    if (Task.currentTask != null) { Task.currentTask.SelectNode(objHit); }
 
                     audio.PlayOneShot(selectSound);
 
