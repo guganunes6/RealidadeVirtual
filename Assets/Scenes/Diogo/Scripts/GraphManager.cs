@@ -43,6 +43,9 @@ public class GraphManager : MonoBehaviour
         PreGenerateGraph();
         GenerateGraph();
         AddGraphY();
+        //GenerateGraph2();
+        //BarycentricMethodSetup();
+        //GenerateGraphBarycentricMethod();
         InstanciateCylinders();
         manager.SetActive(true);
     }
@@ -72,9 +75,9 @@ public class GraphManager : MonoBehaviour
             nodesAdded.Add(node.id);
             foreach (var neighbour in node.neighbours)
             {
-                if (!nodesAdded.Contains(neighbour.Item1.id) && neighbour.Item2 == node.GetAmountOfGenres())
+                if (!nodesAdded.Contains(neighbour.Item1.id) && AreConnected(node, neighbour))
                 {
-                     CreateCylinder(node, neighbour.Item1);
+                    CreateCylinder(node, neighbour.Item1);
                 }
             }
         }
@@ -105,7 +108,7 @@ public class GraphManager : MonoBehaviour
         UnityEngine.Random.InitState(1);
         foreach (var node in nodes.Values)
         {
-            node.position = new Vector3(UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize), 0, UnityEngine.Random.Range(-graphCanvasSize, graphCanvasSize));
+            node.position = new Vector3(UnityEngine.Random.Range(0, graphCanvasSize), 0, UnityEngine.Random.Range(0, graphCanvasSize));
         }
     }
     
@@ -121,7 +124,7 @@ public class GraphManager : MonoBehaviour
                     var distance = positionDiference.magnitude;
 
                     float force;
-                    if (otherNode.Item2 == node.GetAmountOfGenres())
+                    if (AreConnected(node, otherNode))
                     {
                         force = connectedNodeForce * Mathf.Log(distance / minConnectedDistance);
                     }
@@ -132,11 +135,146 @@ public class GraphManager : MonoBehaviour
 
                     var velocity = force * positionDiference.normalized * 0.01f;
                     otherNode.Item1.velocity = velocity;
-                    otherNode.Item1.setPosition(new Vector3(otherNode.Item1.position.x + velocity.x, 0, otherNode.Item1.position.z + velocity.z));
+                    var x = otherNode.Item1.position.x + velocity.x;
+                    if (x > graphCanvasSize)
+                    {
+                        x = graphCanvasSize;
+                    }
+                    if (x < 0)
+                    {
+                        x = 0;
+                    }
+                    var z = otherNode.Item1.position.z + velocity.z;
+                    if (z > graphCanvasSize)
+                    {
+                        z = graphCanvasSize;
+                    }
+                    if (z < 0)
+                    {
+                        z = 0;
+                    }
+
+                    otherNode.Item1.setPosition(new Vector3(x, 0, z));
                 }
             }
         }
     }
+
+    bool AreConnected(Node node, Tuple<Node, int> neighbour)
+    {
+        return neighbour.Item2 == node.GetAmountOfGenres() && neighbour.Item1.GetAmountOfGenres() == node.GetAmountOfGenres();
+    }
+
+    //public void GenerateGraph2()
+    //{
+    //    //for (int i = 0; i < algorithmIterations; i++)
+    //    //{
+    //        // force towards center??
+    //        foreach (var node in nodes.Values)
+    //        {
+    //            var gravity = node.position * -1.1f; // gravity force constant
+    //            node.forceVector = gravity;
+    //        //Debug.Log("gravity: " + node.forceVector);
+    //        //Debug.Log("node: " + node.position);
+    //    }
+
+
+    //    foreach (var node in nodes.Values)
+    //        {
+    //            foreach (var otherNode in node.neighbours)
+    //            {
+    //                // repulsive force between all nodes
+    //                var direction = node.position - otherNode.Item1.position;
+    //                var repulse = direction / (direction.magnitude * direction.magnitude);
+    //                repulse = repulse * 1000; // repulsive force constant
+    //                //Debug.Log("repulse: " + repulse);
+
+    //                node.forceVector += repulse * -1;
+    //                otherNode.Item1.forceVector += repulse;
+
+    //                // connection force
+    //                if (otherNode.Item2 == node.GetAmountOfGenres())
+    //                {
+    //                    var diff = direction.magnitude - 5f; // max distance???????
+    //                                                   //Debug.Log("connection: " + dir);
+
+    //                    node.forceVector -= direction;
+    //                    otherNode.Item1.forceVector += direction;
+    //                }
+    //            }
+    //        }
+
+    //        // apply forces
+    //        foreach (var node in nodes.Values)
+    //        {
+    //                                        // mass
+    //        var velocity = (node.forceVector / 10000) * Time.deltaTime;
+    //        Debug.Log("vel: " + velocity);
+    //        node.setPosition(new Vector3(node.position.x + velocity.x, 0, node.position.z + velocity.z));
+    //        }
+    //    //}
+    //}
+
+    //float Area;
+    //float K;
+    //void BarycentricMethodSetup()
+    //{
+    //    Area = Mathf.Pow(graphCanvasSize, 2);
+    //    PreGenerateGraph();
+    //    K = Mathf.Sqrt(Area / nodes.Count);
+    //}
+    //float AttractionForce(float distance)
+    //{
+    //    return Mathf.Pow(distance, 2) / K;
+    //}
+    //float RepulsiveForce(float distance)
+    //{
+    //    return Mathf.Pow(K, 2) / distance;
+    //}
+    //public void GenerateGraphBarycentricMethod()
+    //{
+    //    //BarycentricMethodSetup();
+    //    //for (int i = 0; i < algorithmIterations; i++)
+    //    //{
+    //        foreach (var node in nodes.Values)
+    //        {
+    //            node.dispVector = Vector3.zero;
+    //            foreach (var otherNode in node.neighbours)
+    //            {
+    //                // repulsive force between all nodes
+    //                var direction = node.position - otherNode.Item1.position;
+    //                node.dispVector += (direction / direction.magnitude) * RepulsiveForce(direction.magnitude); 
+
+    //                // connection force
+    //                if (otherNode.Item2 == node.GetAmountOfGenres())
+    //                {
+    //                    node.dispVector -= (direction / direction.magnitude) * AttractionForce(direction.magnitude);
+    //                    otherNode.Item1.dispVector += (direction / direction.magnitude) * AttractionForce(direction.magnitude);
+    //                }
+    //            }
+    //        }
+
+    //        // apply forces, {limit max displacement to temperature t and prevent from displacement outside canvas}
+    //        foreach (var node in nodes.Values)
+    //        {
+    //            //v.pos := v.pos + (v.disp /| v.disp |) ∗ min(v.disp, t);
+    //            //v.pos.x := min(W / 2, max(−W / 2, v.pos.x));
+    //            //v.pos.y := min(L / 2, max(−L / 2, v.pos.y))
+
+    //            node.position += (node.dispVector / node.dispVector.magnitude);
+    //            var x = node.position.x > graphCanvasSize ? graphCanvasSize : node.position.x;
+    //            var z = node.position.z > graphCanvasSize ? graphCanvasSize : node.position.z;
+
+    //            node.setPosition(new Vector3(x, 0, z));
+    //        }
+    //    //}
+    //}
+
+    //private void Update()
+    //{
+    //    //GenerateGraphBarycentricMethod();
+    //    //GenerateGraph2();
+    //}
 
     public void AddGraphY()
     {
@@ -209,8 +347,8 @@ public class GraphManager : MonoBehaviour
         {
             if (neighbour.Item2 == nodeToOutline.GetAmountOfGenres())
             {
-                // find cylinder by position
-                var diff = neighbour.Item1.position - nodeToOutline.position;
+                    // find cylinder by position
+                    var diff = neighbour.Item1.position - nodeToOutline.position;
                 var position = nodeToOutline.position + (diff / 2);
 
                 foreach (var cyl in cylinders)

@@ -20,6 +20,10 @@ public class Node : MonoBehaviour
     [HideInInspector]
     public Color markedColor;
 
+    [HideInInspector]
+    public Vector3 forceVector;
+    [HideInInspector]
+    public Vector3 dispVector;
     public void NodeConstructor(int nodeId, DecodedNode m)
     {
         id = nodeId;
@@ -29,6 +33,8 @@ public class Node : MonoBehaviour
         velocity = Vector3.zero;
         isMarked = false;
         markedColor = Color.clear;
+        forceVector = Vector3.zero;
+        dispVector = Vector3.zero;
     }
     public void AddNeighbour(Tuple<Node, int> neighbour)
     {

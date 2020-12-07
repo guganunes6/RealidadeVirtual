@@ -44,7 +44,11 @@ public class Task2 : Task {
         GameObject sphere = spheres.transform.GetChild(nodes[nodeIndex]).gameObject;
         Node mainNode = sphere.GetComponent<Node>();
         //List<Node> neighbours = mainNode.neighbours.Where(n => n.Item2 > 0).Select(n => n.Item1).ToList();
-        List<Node> neighbours = mainNode.neighbours.Where(n => n.Item2 == mainNode.GetAmountOfGenres()).Select(n => n.Item1).ToList();
+        List<Node> neighbours = mainNode.neighbours.Where(n => AreConnected(mainNode, n)).Select(n => n.Item1).ToList();
+        //foreach (var n in neighbours)
+        //{
+        //    Debug.Log("n: " + n.movie.getOriginalTitle());
+        //}
         Node highestClassifiedNeighbour = neighbours.OrderByDescending(n => n.movie.getVoteAverage()).First();
         goalSphere = highestClassifiedNeighbour.gameObject;
 
@@ -113,5 +117,10 @@ public class Task2 : Task {
 
     public GameObject GetGoalSphere() {
         return goalSphere;
+    }
+
+    public bool AreConnected(Node node, Tuple<Node, int> neighbour)
+    {
+        return neighbour.Item2 == node.GetAmountOfGenres() && neighbour.Item1.GetAmountOfGenres() == node.GetAmountOfGenres();
     }
 }

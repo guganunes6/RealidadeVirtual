@@ -27,12 +27,20 @@ public class Task3 : Task {
 
     private List<GameObject> ComputeGoalNodes(GameObject spheres, string goalGenre) {
         List<GameObject> goalSpheres = new List<GameObject>();
-        foreach (Transform sphere in spheres.transform) {
-            if (sphere.gameObject.GetComponent<Node>().movie != null) {
-                if(sphere.gameObject.GetComponent<Node>().movie.getGenres().Contains(goalGenre)) {
-                    goalSpheres.Add(sphere.gameObject);
-                    sphere.gameObject.GetComponent<Renderer>().material.color = Color.blue;
-                }
+        //foreach (Transform sphere in spheres.transform) {
+        //    if (sphere.gameObject.GetComponent<Node>().movie != null) {
+        //        if (sphere.gameObject.GetComponent<Node>().movie.getGenres().Contains(goalGenre))
+        //        {
+        //            goalSpheres.Add(sphere.gameObject);
+        //            sphere.gameObject.GetComponent<Renderer>().material.color = Color.blue;
+        //        }
+        //    }
+        //}
+        foreach (var neighbour in mainSphere.gameObject.GetComponent<Node>().neighbours)
+        {
+            if (AreConnected(mainSphere.gameObject.GetComponent<Node>(), neighbour))
+            {
+                goalSpheres.Add(neighbour.Item1.gameObject);
             }
         }
         return goalSpheres;
@@ -93,5 +101,10 @@ public class Task3 : Task {
 
     public override string GetTaskId() {
         return id;
+    }
+
+    bool AreConnected(Node node, Tuple<Node, int> neighbour)
+    {
+        return neighbour.Item2 == node.GetAmountOfGenres() && neighbour.Item1.GetAmountOfGenres() == node.GetAmountOfGenres();
     }
 }

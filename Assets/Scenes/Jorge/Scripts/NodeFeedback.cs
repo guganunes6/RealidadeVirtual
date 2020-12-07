@@ -9,7 +9,7 @@ public class NodeFeedback : MonoBehaviour
     private float maxRange = 12f;
     private float minRange = 2f;
     private float radiusSpeed = 10f;
-    private float targetRadius = 25f;
+    private float targetRadius = 50f;
     private float currentRadius;
 
     void Start()
