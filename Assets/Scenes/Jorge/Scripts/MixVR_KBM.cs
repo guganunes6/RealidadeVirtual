@@ -177,22 +177,7 @@ public class MixVR_KBM : MonoBehaviour
             }
         }
         else if (objHit != null)
-        {
-            Debug.Log("MAG ASKED FOR THIS: " + objHit.name);
-            /*
-            if (objHit.GetComponent<Outline>() != null)
-            {
-                var outline = objHit.GetComponent<Outline>();
-                if (outline.OutlineColor == Color.white)
-                {
-                    outline.enabled = false;
-                    objHit = null;
-
-                }
-                colorListIterator = -1;
-            }
-            */
-            
+        {          
             var outline = objHit.GetComponent<Outline>();
             if (outline.OutlineColor == Color.white)
             {
@@ -201,10 +186,6 @@ public class MixVR_KBM : MonoBehaviour
 
             }
             colorListIterator = -1;
-            
-
-            
-        
         }
 
     }

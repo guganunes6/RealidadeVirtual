@@ -32,7 +32,6 @@ public class Task1 : Task {
     }
 
     private void IluminateNode(int nodeIndex) {
-        Debug.Log("Iluminate Node " + nodes[nodeIndex]);
         GameObject node = spheres.transform.GetChild(nodes[nodeIndex]).gameObject;
 
         node.GetComponent<Renderer>().material.color = Color.red;
@@ -48,10 +47,8 @@ public class Task1 : Task {
     }
 
     public override void SelectNode(GameObject objHit) {
-        Debug.Log("Select Node");
         if (objHit.GetComponent<Light>() != null & trial < nTrials-1) {
             // Finish trial
-            Debug.Log("Right node selected");
             TurnOffNode(trial);
             StopTask();
 
@@ -80,7 +77,6 @@ public class Task1 : Task {
     }
 
     public override void StartNextTask() {
-        Debug.Log("START TASK 2");
         Task task2 = new Task2(encoder, spheres);
         Task.currentTask = task2;
         task2.Start();

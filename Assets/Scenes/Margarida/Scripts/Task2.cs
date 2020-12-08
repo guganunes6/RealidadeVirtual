@@ -52,11 +52,10 @@ public class Task2 : Task {
         Node highestClassifiedNeighbour = neighbours.OrderByDescending(n => n.movie.getVoteAverage()).First();
         goalSphere = highestClassifiedNeighbour.gameObject;
 
-        goalSphere.GetComponent<Renderer>().material.color = Color.blue;
+        //goalSphere.GetComponent<Renderer>().material.color = Color.blue;
     }
 
     private void IluminateNode(int nodeIndex) {
-        Debug.Log("Iluminate Node " + nodes[nodeIndex]);
         GameObject node = spheres.transform.GetChild(nodes[nodeIndex]).gameObject;
 
         node.GetComponent<Renderer>().material.color = Color.red;
@@ -73,10 +72,8 @@ public class Task2 : Task {
     }
 
     public override void SelectNode(GameObject objHit) {
-        Debug.Log("Select Node " + trial);
         if (objHit == goalSphere & trial < nTrials-1) {
             // Finish trial
-            Debug.Log("Right node selected");
             TurnOffNode(trial);
             StopTask();
 
@@ -105,7 +102,6 @@ public class Task2 : Task {
     }
 
     public override void StartNextTask() {
-        Debug.Log("START TASK 3");
         Task task3 = new Task3(encoder, spheres);
         Task.currentTask = task3;
         task3.Start();

@@ -91,7 +91,6 @@ public class Task3 : Task {
             }
         } else if (!goalNodes.Contains(objHit)) {
             wrongNodes++;
-            Debug.Log("wrong nodes " + wrongNodes);
         }
     }
 
