@@ -113,11 +113,6 @@ public class OVRPlayerControllerJorge : MonoBehaviour
                     transform.position += twoHandedFlyingDirection * Mathf.Abs((handsEnd - handsStart).z) * teleportMultiplier * Time.deltaTime;
                 }
 
-                Debug.Log("handsStart: " + handsStart);
-                Debug.Log("handsEnd: " + handsEnd);
-                Debug.Log("handsEnd - handsStart: " + (handsEnd - handsStart));
-                Debug.Log("handstwoHandedFlyingDirection: " + twoHandedFlyingDirection);
-
                 twoHandedFlying = false;
                 handsStart = Vector3.zero;
                 handsEnd = Vector3.zero;

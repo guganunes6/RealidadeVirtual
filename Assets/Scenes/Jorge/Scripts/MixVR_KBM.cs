@@ -82,7 +82,8 @@ public class MixVR_KBM : MonoBehaviour
 
         RaycastHit hit;
         var cameraCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, Camera.main.nearClipPlane));
-        if (Physics.Raycast(cameraCenter, eye.transform.forward, out hit, hitDistance))
+        int layerMask = 1 << 8;
+        if (Physics.Raycast(cameraCenter, eye.transform.forward, out hit, hitDistance, layerMask))
         {
             objHit = hit.transform.gameObject;
             if (objHit.tag == "Sphere")
@@ -177,6 +178,21 @@ public class MixVR_KBM : MonoBehaviour
         }
         else if (objHit != null)
         {
+            Debug.Log("MAG ASKED FOR THIS: " + objHit.name);
+            /*
+            if (objHit.GetComponent<Outline>() != null)
+            {
+                var outline = objHit.GetComponent<Outline>();
+                if (outline.OutlineColor == Color.white)
+                {
+                    outline.enabled = false;
+                    objHit = null;
+
+                }
+                colorListIterator = -1;
+            }
+            */
+            
             var outline = objHit.GetComponent<Outline>();
             if (outline.OutlineColor == Color.white)
             {
@@ -185,6 +201,10 @@ public class MixVR_KBM : MonoBehaviour
 
             }
             colorListIterator = -1;
+            
+
+            
+        
         }
 
     }
