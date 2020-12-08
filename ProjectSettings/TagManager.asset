@@ -3,10 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
+<<<<<<< HEAD
   tags:
   - GraphManager
   - Sphere
   - MovieUI
+=======
+  tags: []
+>>>>>>> parent of 62a6e02... added crosshair and marked edges
   layers:
   - Default
   - TransparentFX

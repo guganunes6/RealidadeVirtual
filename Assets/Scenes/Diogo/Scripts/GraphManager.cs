@@ -174,6 +174,7 @@ public class GraphManager : MonoBehaviour
         return numberOfEqualGenres;
     }
 
+<<<<<<< HEAD
     public void DebugLogGenres(Vector3 nodePosition)
     {
         foreach (var node in nodes.Values)
@@ -235,6 +236,9 @@ public class GraphManager : MonoBehaviour
             }
         }
     }
+=======
+
+>>>>>>> parent of 62a6e02... added crosshair and marked edges
 }
 
 

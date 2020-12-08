@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraScript : MonoBehaviour
+public class CameraScript2 : MonoBehaviour
 {
-<<<<<<< HEAD
-    public GameObject graphManager;
-=======
 
->>>>>>> parent of 62a6e02... added crosshair and marked edges
     public GameObject player;
 
     public float hitDistance = 2f;
 
     public float moveSpeedWASD = 10f;
     public float moveSpeedMouseWheel = 10f;
-    public float rotateAroundSpeed = 10f;
+    public float rotateSpeed = 10f;
 
     public float sensitivity = 10f;
     public float maxYAngle = 89.5f;
@@ -97,30 +93,11 @@ public class CameraScript : MonoBehaviour
 
                 if (objHit.GetComponent<Light>() != null)
                 {
-<<<<<<< HEAD
-                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(true, objHit);
-
-                    playerStop = true;
-                    outline.OutlineColor = orange;
-                    outline.OutlineWidth = 30;
-
-                    //if (objHit.GetComponent<Light>() != null)
-                    //{
-                    //    List<GameObject> objsHit = new List<GameObject>();
-                    //    objsHit.Add(objHit);
-                    //    Task.currentTask.Stop(objsHit);
-                    //    //Destroy(objHit.GetComponent<Light>());
-                    //    //objHit.GetComponent<Renderer>().material.color = Color.white;
-                    //    //Debug.Log("Time until select random node: " + Time.time);
-                    //}
-                    Task.currentTask.StopTask(objHit);
-=======
                     Destroy(objHit.GetComponent<Light>());
                     Debug.Log("Time until select random node: " + Time.time);
                 }
 
                 audio.PlayOneShot(selectSound);
->>>>>>> parent of 62a6e02... added crosshair and marked edges
 
             }
             else if (Input.GetMouseButtonDown(0) & playerStop)
@@ -138,59 +115,20 @@ public class CameraScript : MonoBehaviour
             {
                 if (colorListIterator == 3)
                 {
-<<<<<<< HEAD
-                    graphManager.GetComponent<GraphManager>().ToggleMovieUI(false, objHit);
-
-                    playerStop = false;
-=======
->>>>>>> parent of 62a6e02... added crosshair and marked edges
                     outline.OutlineColor = Color.white;
                     outline.OutlineWidth = 10;
                     colorListIterator = -1;
                 }
                 else if (colorListIterator >= -1 & colorListIterator <= 2)
                 {
-<<<<<<< HEAD
-                    if (colorListIterator == 3)
-                    {
-                        outline.OutlineColor = Color.white;
-                        outline.OutlineWidth = 10;
-                        colorListIterator = -1;
-                    }
-                    else if (colorListIterator >= -1 & colorListIterator <= 2)
-                    {
-                        outline.OutlineColor = colorsList[colorListIterator + 1];
-                        outline.OutlineWidth = 100;
-                        colorListIterator++;
-                    }
-
-                    if (objHit.tag == "Sphere")
-                    {
-                        graphManager.GetComponent<GraphManager>().OutlineNodeEdges(objHit, outline.OutlineColor, 10, colorListIterator != -1);
-                    }
-
-                    audio.PlayOneShot(markSound);
-=======
                     outline.OutlineColor = colorsList[colorListIterator + 1];
                     outline.OutlineWidth = 100;
                     colorListIterator++;
->>>>>>> parent of 62a6e02... added crosshair and marked edges
                 }
 
                 audio.PlayOneShot(markSound);
             }
 
-<<<<<<< HEAD
-                if (playerStop)
-                {
-                    float xValueRotateAround = Input.GetAxis("Horizontal") * Time.deltaTime * rotateAroundSpeed;
-                    //float zValueRotate = Input.GetAxis("Vertical") * Time.deltaTime * rotateSpeed;
-                    transform.RotateAround(objHit.transform.position, Vector3.up, -xValueRotateAround);
-                    currentRotation.x = transform.localRotation.eulerAngles.y;
-                    //transform.RotateAround(objHit.transform.position, Vector3.right, zValueRotate);
-                    player.transform.position = transform.position;
-                }
-=======
             ////////// ROTATE AROUND
 
             if (playerStop)
@@ -201,7 +139,6 @@ public class CameraScript : MonoBehaviour
                 currentRotation.x = transform.localRotation.eulerAngles.y;
                 //transform.RotateAround(objHit.transform.position, Vector3.right, zValueRotate);
                 player.transform.position = transform.position;
->>>>>>> parent of 62a6e02... added crosshair and marked edges
             }
 
         }

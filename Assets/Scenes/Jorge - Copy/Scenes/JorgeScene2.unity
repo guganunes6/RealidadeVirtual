@@ -225,11 +225,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122602a3b29b83c42ab73fb00de5c6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   connectedNodeForce: 1
   minConnectedDistance: 10
   disconnectedNodeForce: 4
   graphCanvasSize: 180
   cylinderPrefab: {fileID: 7960853812639014517, guid: 89bbcdcaaa8bcb54d92f5e9905649b3b,
+=======
+  graphCanvasSize: 20
+  cylinderPrefab: {fileID: 7960853812639014517, guid: a653dfa0a67c0e647b9a398b8821019f,
+>>>>>>> parent of 62a6e02... added crosshair and marked edges
     type: 3}
   spherePrefab: {fileID: 7841032801911390119, guid: b6abb9695055f8742a3d65fc47aa9931,
     type: 3}
@@ -262,7 +267,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: 7
+=======
+  m_RootOrder: 5
+>>>>>>> parent of 62a6e02... added crosshair and marked edges
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &386883525
 GameObject:
@@ -293,7 +302,7 @@ Transform:
   m_Children:
   - {fileID: 993624667}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &626357660
 GameObject:
@@ -440,6 +449,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7841032801492450813}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1 &1014402206
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,6 +720,8 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+=======
+>>>>>>> parent of 62a6e02... added crosshair and marked edges
 --- !u!1 &1854208846 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3648982022115259543, guid: c2210cd169e3aba4dab03160fb0e4bfc,
@@ -904,7 +916,7 @@ PrefabInstance:
     - target: {fileID: 3648982022115259531, guid: c2210cd169e3aba4dab03160fb0e4bfc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3648982022115259531, guid: c2210cd169e3aba4dab03160fb0e4bfc,
         type: 3}
@@ -973,7 +985,7 @@ PrefabInstance:
     - target: {fileID: 4595048424515649110, guid: 55bb1d9b0b088d24e9dceb607211bbc0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4595048424515649110, guid: 55bb1d9b0b088d24e9dceb607211bbc0,
         type: 3}
@@ -995,6 +1007,7 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1854208846}
+<<<<<<< HEAD
     - target: {fileID: 4595048424515649111, guid: 55bb1d9b0b088d24e9dceb607211bbc0,
         type: 3}
       propertyPath: hitDistance
@@ -1010,6 +1023,8 @@ PrefabInstance:
       propertyPath: graphManager
       value: 
       objectReference: {fileID: 370698109}
+=======
+>>>>>>> parent of 62a6e02... added crosshair and marked edges
     - target: {fileID: 4595048424515649131, guid: 55bb1d9b0b088d24e9dceb607211bbc0,
         type: 3}
       propertyPath: m_Name
@@ -1062,7 +1077,7 @@ PrefabInstance:
     - target: {fileID: 7841032801911390118, guid: b6abb9695055f8742a3d65fc47aa9931,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7841032801911390118, guid: b6abb9695055f8742a3d65fc47aa9931,
         type: 3}
@@ -1146,7 +1161,11 @@ PrefabInstance:
     - target: {fileID: 8626675161361263754, guid: c43e824abc7440e4395b4d3303ebc39a,
         type: 3}
       propertyPath: m_RootOrder
+<<<<<<< HEAD
       value: 6
+=======
+      value: 4
+>>>>>>> parent of 62a6e02... added crosshair and marked edges
       objectReference: {fileID: 0}
     - target: {fileID: 8626675161361263754, guid: c43e824abc7440e4395b4d3303ebc39a,
         type: 3}
