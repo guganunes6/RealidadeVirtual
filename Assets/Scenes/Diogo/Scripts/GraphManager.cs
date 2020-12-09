@@ -191,7 +191,6 @@ public class GraphManager : MonoBehaviour
         if(show)
         {
             MovieUI.GetComponent<MovieUI>().ShowUI(nodeSphere.GetComponent<Node>().movie);
-            MovieUI.GetComponent<AnimationFade>().startAnimation(MovieUI);
         }
         else
         {
