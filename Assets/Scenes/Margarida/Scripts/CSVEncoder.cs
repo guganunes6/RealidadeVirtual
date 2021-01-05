@@ -26,7 +26,9 @@ public class CSVEncoder {
             Debug.Log("Creating file");
             string firstLine = "";
             for (int i = 1; i <= 15; i++) { firstLine += "Task 1." + i + ",Wrong Nodes 1."  + i + ","; }
+            firstLine += "Task 1 Total,";
             for (int i = 1; i <= 5; i++) { firstLine += "Task 2." + i + ",Wrong Nodes 2."  + i + ","; }
+            firstLine += "Task 2 Total,";
             firstLine += "Task 3,Wrong Nodes 3,Total,Total wrong nodes";
             StreamWriter outStream = File.CreateText(path + fileName);
             outStream.WriteLine(firstLine);
@@ -60,6 +62,11 @@ public class CSVEncoder {
     public void AddTime(double time, int wrongNodes) {
         times.Add(time);
         wrongSelectedNodes.Add(wrongNodes);
+    }
+
+    public void AddFinalTaskTime(int numTrials) {
+        taskTrials = times.GetRange(times.Count - numTrials, times.Count - 1);
+        times.Add(taskTrials.Sum());
     }
 
     public void PrintTimes() {

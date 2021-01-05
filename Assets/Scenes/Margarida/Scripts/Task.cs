@@ -38,6 +38,10 @@ public abstract class Task : MonoBehaviour {
         return toContinue;
     }
 
+    public void AddFinalTaskTime(int numTrials) {
+        encoder.AddFinalTaskTime(numTrials);
+    }
+
     public void AddTime(double time) {
         encoder.AddTime(time, wrongNodes);
         wrongNodes = 0;

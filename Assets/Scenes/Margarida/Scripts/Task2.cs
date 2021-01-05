@@ -83,6 +83,7 @@ public class Task2 : Task {
             // Finish last trial
             TurnOffNode(trial);
             StopTask();
+            AddFinalTaskTime(nodes.Length);
             PrintTimes();
 
             // Start next Task
