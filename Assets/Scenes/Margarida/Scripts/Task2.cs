@@ -79,7 +79,7 @@ public class Task2 : Task {
 
             // Start next trial
             Start(++trial);
-        } else if (trial == nTrials-1) {
+        } else if (objHit == goalSphere && trial == nTrials-1) {
             // Finish last trial
             TurnOffNode(trial);
             StopTask();

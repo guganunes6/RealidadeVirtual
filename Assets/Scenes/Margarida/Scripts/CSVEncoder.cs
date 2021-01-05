@@ -65,8 +65,8 @@ public class CSVEncoder {
     }
 
     public void AddFinalTaskTime(int numTrials) {
-        int taskTrials = times.GetRange(times.Count - numTrials, times.Count - 1);
-        int taskWrongNodes = wrongSelectedNodes.GetRange(wrongSelectedNodes.Count - numTrials, wrongSelectedNodes.Count - 1);
+        List<double> taskTrials = times.GetRange(times.Count - numTrials, numTrials);
+        List<double> taskWrongNodes = wrongSelectedNodes.GetRange(wrongSelectedNodes.Count - numTrials, numTrials);
         times.Add(taskWrongNodes.Sum());
     }
 
