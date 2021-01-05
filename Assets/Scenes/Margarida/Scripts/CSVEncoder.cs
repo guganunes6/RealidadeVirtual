@@ -52,11 +52,11 @@ public class CSVEncoder {
     }
 
     public double GetTotalTasksTime() {
-        return times.Sum();
+        return times[15] + times[21] + times[22];
     }
 
     public double GetTotalWrongSelectedNodes() {
-        return wrongSelectedNodes.Sum();
+        return wrongSelectedNodes[15] + wrongSelectedNodes[21] + wrongSelectedNodes[22];
     }
 
     public void AddTime(double time, int wrongNodes) {
@@ -66,8 +66,9 @@ public class CSVEncoder {
 
     public void AddFinalTaskTime(int numTrials) {
         List<double> taskTrials = times.GetRange(times.Count - numTrials, numTrials);
-        List<double> taskWrongNodes = wrongSelectedNodes.GetRange(wrongSelectedNodes.Count - numTrials, numTrials);
-        times.Add(taskWrongNodes.Sum());
+        List<int> taskWrongNodes = wrongSelectedNodes.GetRange(wrongSelectedNodes.Count - numTrials, numTrials);
+        times.Add(taskTrials.Sum());
+        wrongSelectedNodes.Add(taskWrongNodes.Sum());
     }
 
     public void PrintTimes() {
