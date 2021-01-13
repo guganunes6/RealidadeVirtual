@@ -171,7 +171,7 @@ public class CameraScript : MonoBehaviour
         else if (objHit != null)
         {
             var outline = objHit.GetComponent<Outline>();
-            if (outline.OutlineColor == Color.white)
+            if (outline != null & outline.OutlineColor == Color.white)
             {
                 outline.enabled = false;
                 objHit = null;
